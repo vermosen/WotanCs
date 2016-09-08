@@ -29,4 +29,6 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 listenerService/bin/Debug/listener_uat.xml
 listenerService/bin/Release/listener_uat.xml
+listenerConsole/bin/Debug/listener_uat.xml
+listenerConsole/bin/Release/listener_uat.xml
 listenerService/listener_uat.xml
