@@ -54,9 +54,12 @@ namespace Wotan
 
                 do
                 {
-
+                    if (lanched)
+                        return true;
                 }
-                while (lanched_ == false && ++nAttempt < config_.maxAttempt)
+                while (++nAttempt < config_.interactiveBroker.maxAttempt);
+
+                return false;
             }
         }
     }
