@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IBApi;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Wotan
 {
@@ -11,22 +14,50 @@ namespace Wotan
     public class serviceImpl : service
     {
         private configuration config_;
-
+        private eClient cli_;
+        
+        // ctors
+        [Obsolete]
+        private serviceImpl() : base(null) { }                                  // for designer only
         public serviceImpl(logger log) : base(log) { }
+
+        // interfaces
         public override void onStartImpl()
         {
-            Console.WriteLine("Hello {0}", config_.test);
+            cli_ = new eClient(log_);
+            cli_.socket.eConnect("127.0.0.1", 7496, 0);
         }
         public override void onStopImpl()
         {
-            Console.WriteLine("Goodbye !");
+            cli_.socket.eDisconnect();
         }
         public override void loadPreferencesImpl(string xmlPath)
         {
             config_ = (new xmlParser<configuration>()).ToObject(new FileStream(xmlPath, FileMode.Open));
         }
 
-        // for designer only
-        [Obsolete] private serviceImpl() : base(null) {}
+        // methods
+        private bool launchGatewayProcess()
+        {
+            Process[] pname = Process.GetProcessesByName("ibgateway");
+
+            if (pname.Length != 0)
+            {
+                log_.log("ibgateway process is up and running",
+                    verbosity.medium, messageType.info);
+
+                return true;
+            }
+            else
+            {
+                int nAttempt = 0; bool lanched = false;
+
+                do
+                {
+
+                }
+                while (lanched_ == false && ++nAttempt < config_.maxAttempt)
+            }
+        }
     }
 }

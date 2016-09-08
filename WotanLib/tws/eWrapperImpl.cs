@@ -5,103 +5,84 @@ using IBApi;
 namespace Wotan
 {
     // base class for any EWrapper implementation
-    public class eWrapperImpl : EWrapper
+    public abstract class eWrapperImpl : EWrapper
     {
         public virtual void accountDownloadEnd(string account)
         {
             throw new NotImplementedException();
         }
-
         public virtual void accountSummary(int reqId, string account, string tag, string value, string currency)
         {
             throw new NotImplementedException();
         }
-
         public virtual void accountSummaryEnd(int reqId)
         {
             throw new NotImplementedException();
         }
-
         public virtual void accountUpdateMulti(int requestId, string account, string modelCode, string key, string value, string currency)
         {
             throw new NotImplementedException();
         }
-
         public virtual void accountUpdateMultiEnd(int requestId)
         {
             throw new NotImplementedException();
         }
-
         public virtual void bondContractDetails(int reqId, ContractDetails contract)
         {
             throw new NotImplementedException();
         }
-
         public virtual void commissionReport(CommissionReport commissionReport)
         {
             throw new NotImplementedException();
         }
-
         public virtual void connectAck()
         {
             throw new NotImplementedException();
         }
-
         public virtual void connectionClosed()
         {
             throw new NotImplementedException();
         }
-
         public virtual void contractDetails(int reqId, ContractDetails contractDetails)
         {
             throw new NotImplementedException();
         }
-
         public virtual void contractDetailsEnd(int reqId)
         {
             throw new NotImplementedException();
         }
-
         public virtual void currentTime(long time)
         {
             throw new NotImplementedException();
         }
-
         public virtual void deltaNeutralValidation(int reqId, UnderComp underComp)
         {
             throw new NotImplementedException();
         }
-
         public virtual void displayGroupList(int reqId, string groups)
         {
             throw new NotImplementedException();
         }
-
         public virtual void displayGroupUpdated(int reqId, string contractInfo)
         {
             throw new NotImplementedException();
         }
-
         public virtual void error(string str)
         {
             throw new NotImplementedException();
         }
-
         public virtual void error(Exception e)
         {
             throw new NotImplementedException();
         }
-
         public virtual void error(int id, int errorCode, string errorMsg)
         {
             throw new NotImplementedException();
         }
-
         public virtual void execDetails(int reqId, Contract contract, Execution execution)
         {
             throw new NotImplementedException();
         }
-
         public virtual void execDetailsEnd(int reqId)
         {
             throw new NotImplementedException();

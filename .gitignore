@@ -27,3 +27,5 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
+listenerService/bin/Debug/listener_uat.xml
+listenerService/listener_uat.xml

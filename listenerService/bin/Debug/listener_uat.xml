@@ -1,4 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-  <test>toto</test>
+  <interactiveBroker>
+    <login>toto</login>
+    <password>foo</password>
+    <port>4078</port>
+    <controllerPort>8956</controllerPort>
+    <path>foo</path>
+  </interactiveBroker>
 </configuration>

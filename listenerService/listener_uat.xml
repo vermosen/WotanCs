@@ -1,4 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-  <test>toto</test>
+  <interactiveBroker>
+    <login></login>
+    <password>foo</password>
+    <port>4078</port>
+    <controllerPort>8956</controllerPort>
+    <path>C:\Jts\ibgateway\957</path>
+    <maxAttempt>5</maxAttempt>
+    <delayAttempt>5</delayAttempt>
+  </interactiveBroker>
 </configuration>

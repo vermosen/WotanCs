@@ -7,7 +7,7 @@ namespace Wotan
     // base class for windows service with log
     public abstract class service : ServiceBase
     {
-        logger log_;
+        protected logger log_;
         public service(logger log)
         {
             log_ = log;
@@ -70,7 +70,16 @@ namespace Wotan
 
         protected override void OnStop()
         {
-            onStopImpl();
+            try
+            {
+                onStopImpl();
+            }
+            catch (Exception ex)
+            {
+                log_.log("an error has occurred while shutting down the service: " + ex.Message, 
+                    verbosity.high, messageType.error);
+            }
+            
         }
 
         public void startDebug(string[] args)
