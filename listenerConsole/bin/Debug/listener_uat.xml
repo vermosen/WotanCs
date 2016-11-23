@@ -1,12 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <environment>
+    <javaPath>C:\Program Files\Java\jre1.8.0_101\bin</javaPath>
+  </environment>
   <interactiveBroker>
     <login>foo</login>
     <password>foo</password>
-    <port>4078</port>
+    <port>4001</port>
     <controllerPort>8956</controllerPort>
     <path>C:\Jts\ibgateway\957</path>
     <maxAttempt>5</maxAttempt>
     <delayAttempt>5</delayAttempt>
+    <mode>paper</mode>
   </interactiveBroker>
+  <logger xsi:type="consoleLoggerSerializer">
+    <threshold>low</threshold>
+  </logger>
 </configuration>

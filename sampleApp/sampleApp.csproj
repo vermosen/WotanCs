@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E5BB10B0-566D-4100-B04A-42E1E7417833}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{756183A0-180B-4F75-B92C-C38E092D88D1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wotan</RootNamespace>
-    <AssemblyName>WotanLib</AssemblyName>
+    <RootNamespace>sampleApp</RootNamespace>
+    <AssemblyName>sampleApp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,7 +38,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,26 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="application\logger.cs" />
-    <Compile Include="pattern\factory.cs" />
-    <Compile Include="strategy.cs" />
-    <Compile Include="time\calendar.cs" />
-    <Compile Include="tws\client.cs" />
-    <Compile Include="tws\dataManager.cs" />
-    <Compile Include="tws\dataManagers\realtimeBarManager.cs" />
-    <Compile Include="tws\message.cs" />
-    <Compile Include="tws\messages\connectionStatus.cs" />
-    <Compile Include="tws\realTimeSink.cs" />
-    <Compile Include="tws\sink.cs" />
-    <Compile Include="tws\wrapper.cs" />
-    <Compile Include="tws\eWrapperImpl.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="application\service.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="application\xmlParser.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

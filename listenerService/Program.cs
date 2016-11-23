@@ -12,12 +12,12 @@ namespace Wotan
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static void Main()
+        static void Main(string[] args)
         {
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new listenerService(new winLogger("Wotan", "Program Startup", verbosity.high))
+                new listenerService(args)
             };
             ServiceBase.Run(ServicesToRun);
         }

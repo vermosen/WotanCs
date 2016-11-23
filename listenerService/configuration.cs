@@ -12,9 +12,56 @@ namespace Wotan
     [Serializable]
     public class configuration
     {
+        [XmlInclude(typeof(winLoggerSerializer))]
+        [XmlInclude(typeof(consoleLoggerSerializer))]
+        public abstract class loggerSerializer
+        {
+            [XmlElement("threshold", Type = typeof(verbosity), IsNullable = false)]
+            public verbosity threshold { get; set; }
+
+            public abstract logger create();
+        }
+        public class winLoggerSerializer : loggerSerializer
+        {
+            [XmlElement("log", Type = typeof(string), IsNullable = false)]
+            public string log { get; set; }
+
+            [XmlElement("source", Type = typeof(string), IsNullable = false)]
+            public string source { get; set; }
+
+            public override logger create() { return new winLogger(log, source, threshold); }
+        }
+        public class consoleLoggerSerializer : loggerSerializer
+        {
+            public override logger create() { return new consoleLogger(threshold); }
+        }
+
+        [Serializable]
+        public class IBEnvironment
+        {
+            private string javaPath_;
+
+            [XmlElement("javaPath")]
+            public string javaPath
+            {
+                get { return javaPath_; }
+                set { javaPath_ = value; }
+            }
+        }
+
         [Serializable]
         public class IBCredentials
         {
+            [Serializable]
+            public enum mode
+            {
+                [XmlEnum("live")]
+                live        = 1,
+                [XmlEnum("paper")]
+                paper       = 2,
+                undefined   = 0
+            }
+
             private string  login_          ;
             private string  password_       ;
             private int     port_           ;
@@ -22,6 +69,7 @@ namespace Wotan
             private string  path_           ;
             private int     maxAttempt_     ;
             private int     delayAttempt_   ;
+            private mode    mode_           ;
 
             [XmlElement("login")]
             public string login
@@ -71,10 +119,18 @@ namespace Wotan
                 get { return delayAttempt_; }
                 set { delayAttempt_ = value; }
             }
+
+            [XmlElement("IBMode")]
+            public mode IBMode
+            {
+                get { return mode_; }
+                set { mode_ = value; }
+            }
         }
 
         // fields
         private IBCredentials interactiveBroker_;
+        private IBEnvironment environment_;
 
         [XmlElement("interactiveBroker")]
         public IBCredentials interactiveBroker
@@ -82,5 +138,14 @@ namespace Wotan
             get { return interactiveBroker_; }
             set { interactiveBroker_ = value; }
         }
+        [XmlElement("environment")]
+        public IBEnvironment environment
+        {
+            get { return environment_; }
+            set { environment_ = value; }
+        }
+
+        [XmlElement("logger", Type = typeof(loggerSerializer))] 
+        public loggerSerializer logger { get; set; }
     }
 }

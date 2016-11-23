@@ -4,3 +4,4 @@ C:\Git\Wotan\WotanLib\bin\Debug\CSharpAPI.dll
 C:\Git\Wotan\WotanLib\bin\Debug\CSharpAPI.pdb
 C:\Git\Wotan\WotanLib\obj\Debug\WotanLib.dll
 C:\Git\Wotan\WotanLib\obj\Debug\WotanLib.pdb
+C:\Git\Wotan\WotanLib\obj\Debug\WotanLib.csprojResolveAssemblyReference.cache

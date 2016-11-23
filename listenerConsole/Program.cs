@@ -8,18 +8,19 @@ using System.Threading.Tasks;
 
 namespace Wotan
 {
-    internal enum shutdownReason
-    {
-        PressCtrlC = 0,
-        PressCtrlBreak = 1,
-        ConsoleClosing = 2,
-        WindowsLogOff = 5,
-        WindowsShutdown = 6,
-        ReachEndOfMain = 1000,
-        Exception = 1001
-    }
     internal class shutdownEventArgs
     {
+        internal enum shutdownReason
+        {
+            PressCtrlC      = 0,
+            PressCtrlBreak  = 1,
+            ConsoleClosing  = 2,
+            WindowsLogOff   = 5,
+            WindowsShutdown = 6,
+            ReachEndOfMain  = 1000,
+            Exception       = 1001
+        }
+
         public readonly Exception ex_;
         public readonly shutdownReason reason_;
 
@@ -38,27 +39,26 @@ namespace Wotan
 
     class Program
     {
-        private delegate bool kernel32ShutdownHandler(shutdownReason reason);
+        private delegate bool kernel32ShutdownHandler(shutdownEventArgs.shutdownReason reason);
 
         [DllImport("Kernel32")]
         private static extern bool SetConsoleCtrlHandler(kernel32ShutdownHandler handler, bool add);
 
         // shutdown events
-
         protected static void raiseShutdownEvent(shutdownEventArgs args)
         {
             switch (args.reason_)
             {
-                case shutdownReason.ConsoleClosing:
-                case shutdownReason.PressCtrlC:
-                case shutdownReason.PressCtrlBreak:
-                case shutdownReason.WindowsLogOff:
-                case shutdownReason.WindowsShutdown:
+                case shutdownEventArgs.shutdownReason.ConsoleClosing:
+                case shutdownEventArgs.shutdownReason.PressCtrlC:
+                case shutdownEventArgs.shutdownReason.PressCtrlBreak:
+                case shutdownEventArgs.shutdownReason.WindowsLogOff:
+                case shutdownEventArgs.shutdownReason.WindowsShutdown:
                     {
                         signal_.Set();
                         break;
                     }
-                case shutdownReason.Exception:
+                case shutdownEventArgs.shutdownReason.Exception:
                     {
                         Console.WriteLine("an error has occurred: {0}", args.ex_);
                         signal_.Set();
@@ -77,13 +77,13 @@ namespace Wotan
         // handlers
         static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
-            raiseShutdownEvent(new shutdownEventArgs(shutdownReason.ReachEndOfMain));
+            raiseShutdownEvent(new shutdownEventArgs(shutdownEventArgs.shutdownReason.ReachEndOfMain));
         }
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             raiseShutdownEvent(new shutdownEventArgs(e.ExceptionObject as Exception));
         }
-        static bool Kernel32_ProcessShuttingDown(shutdownReason sig)
+        static bool Kernel32_ProcessShuttingDown(shutdownEventArgs.shutdownReason sig)
         {
             raiseShutdownEvent(new shutdownEventArgs(sig));
             return false;
@@ -99,10 +99,12 @@ namespace Wotan
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+
+
             try
             {
-                serviceImpl srv = new serviceImpl(new winLogger("Wotan", "Program Startup", verbosity.high));
-                srv.startDebug(new string[] { @"-xml=listener_uat.xml" });
+                serviceImpl srv = new serviceImpl(args);
+                srv.startDebug(null);
                 signal_.WaitOne();
                 srv.stopDebug();
                 return 0;

@@ -1,4 +1,3 @@
-C:\Git\Wotan\listenerConsole\bin\Debug\listener_uat.xml
 C:\Git\Wotan\listenerConsole\bin\Debug\listenerConsole.exe.config
 C:\Git\Wotan\listenerConsole\bin\Debug\listenerConsole.exe
 C:\Git\Wotan\listenerConsole\bin\Debug\listenerConsole.pdb
@@ -6,6 +5,7 @@ C:\Git\Wotan\listenerConsole\bin\Debug\CSharpAPI.dll
 C:\Git\Wotan\listenerConsole\bin\Debug\WotanLib.dll
 C:\Git\Wotan\listenerConsole\bin\Debug\WotanLib.pdb
 C:\Git\Wotan\listenerConsole\bin\Debug\CSharpAPI.pdb
-C:\Git\Wotan\listenerConsole\obj\Debug\listenerConsole.csprojResolveAssemblyReference.cache
 C:\Git\Wotan\listenerConsole\obj\Debug\listenerConsole.exe
 C:\Git\Wotan\listenerConsole\obj\Debug\listenerConsole.pdb
+C:\Git\Wotan\listenerConsole\obj\Debug\listenerConsole.csprojResolveAssemblyReference.cache
+C:\Git\Wotan\listenerConsole\bin\Debug\listener_uat.xml
