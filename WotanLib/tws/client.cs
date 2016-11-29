@@ -3,7 +3,7 @@ using System;
 
 namespace Wotan
 {
-    // historical data management
+    // historical data management /
     public delegate void updateDelegate(message message);
 
     public class messageDispatcher
