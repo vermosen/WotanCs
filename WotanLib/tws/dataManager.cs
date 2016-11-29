@@ -8,19 +8,17 @@ using IBApi;
 
 namespace Wotan
 {
-    public abstract class dataManager<T> where T : messageType
+    public abstract class dataManager //where T : message
     {
         protected client client_;
-
-        protected delegate void updateCallback(message<T> msg);
 
         public dataManager(client client)
         {
             client_ = client;
         }
 
-        public abstract void notifyError(int requestId);
-
+        public abstract void update(message message);
         public abstract void clear();
+        public abstract void notifyError(int requestId);        
     }
 }

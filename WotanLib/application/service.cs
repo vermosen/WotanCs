@@ -109,7 +109,7 @@ namespace Wotan
                 {
                     foreach (var t in temp)
                     {
-                        log_.log(t.Item1, t.Item2, t.Item3, t.Item4);
+                        log_.add(t.Item1, t.Item2, t.Item3, t.Item4);
                     }
                 }
             }
@@ -131,7 +131,7 @@ namespace Wotan
             }
             catch (Exception ex)
             {
-                log_.log("an error has occurred: " + ex.Message + Environment.NewLine + 
+                log_.add("an error has occurred: " + ex.Message + Environment.NewLine + 
                          "Shutting down the service...", logType.error, verbosity.high);
                 Stop();
             }
@@ -145,7 +145,7 @@ namespace Wotan
             }
             catch (Exception ex)
             {
-                log_.log("an error has occurred while shutting down the service: " + ex.Message,
+                log_.add("an error has occurred while shutting down the service: " + ex.Message,
                     logType.error, verbosity.high);
             }
             

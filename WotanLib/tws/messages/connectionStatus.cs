@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace Wotan
 {
-    public class connectionStatusMessage : message<connectionStatus>
+    public class connectionStatus : message
     {
-        private bool isConnected;
-
-        public bool IsConnected
-        {
-            get { return isConnected; }
-        }
-
-        public void connectionStatus(bool isConnected)
+        public connectionStatus(bool isConnected) : base(messageType.connectionStatus)
         {
             this.isConnected = isConnected;
+        }
+
+        public bool isConnected
+        {
+            get;
+            private set;
         }
     }
 }

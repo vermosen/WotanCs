@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "listenerConsole", "listener
 		{A5C0121B-BB6B-49E2-A0D4-19893B575D2C} = {A5C0121B-BB6B-49E2-A0D4-19893B575D2C}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sampleApp", "sampleApp\sampleApp.csproj", "{756183A0-180B-4F75-B92C-C38E092D88D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WotanUnitTest", "wotanUnitTest\WotanUnitTest.csproj", "{5B43AD5A-0AC4-4C29-A456-7543DCDB038B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,10 +32,10 @@ Global
 		{7AB21FD5-F1A0-4E43-931B-ED2EDDFCC182}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AB21FD5-F1A0-4E43-931B-ED2EDDFCC182}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AB21FD5-F1A0-4E43-931B-ED2EDDFCC182}.Release|Any CPU.Build.0 = Release|Any CPU
-		{756183A0-180B-4F75-B92C-C38E092D88D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{756183A0-180B-4F75-B92C-C38E092D88D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{756183A0-180B-4F75-B92C-C38E092D88D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{756183A0-180B-4F75-B92C-C38E092D88D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B43AD5A-0AC4-4C29-A456-7543DCDB038B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B43AD5A-0AC4-4C29-A456-7543DCDB038B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B43AD5A-0AC4-4C29-A456-7543DCDB038B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B43AD5A-0AC4-4C29-A456-7543DCDB038B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

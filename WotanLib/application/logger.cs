@@ -27,12 +27,12 @@ namespace Wotan
         {
             threshold_ = threshold;
         }
-        public void log(string message, logType t, verbosity v,int eventId = 0)
+        public void add(string message, logType t, verbosity v,int eventId = 0)
         {
-            if (v >= threshold_) logImpl(message, t, eventId);
+            if (v >= threshold_) addImpl(message, t, eventId);
         }
 
-        protected abstract void logImpl(string message, logType t, int eventId);
+        protected abstract void addImpl(string message, logType t, int eventId);
     }
 
     public sealed class winLogger : logger
@@ -49,7 +49,7 @@ namespace Wotan
             source_ = source;
         }
 
-        protected override void logImpl(string message, logType t, int eventId = 0)
+        protected override void addImpl(string message, logType t, int eventId = 0)
         {
             // log in the log
             switch (t)
@@ -85,7 +85,7 @@ namespace Wotan
             m_ = new Mutex();
         }
 
-        protected override void logImpl(string message, logType t, int eventId = 0)
+        protected override void addImpl(string message, logType t, int eventId = 0)
         {
             lock (m_)
             {

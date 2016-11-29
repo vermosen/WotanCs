@@ -6,63 +6,64 @@ using System.Threading.Tasks;
 
 namespace Wotan
 {
-    public abstract class messageType {}
-    public class tickPrice : messageType {}
-    public class tickSize : messageType {}
-    public class orderStatus : messageType {}
-    public class error : messageType {}
-    public class openOrder : messageType { }
-    public class accountValue : messageType { }
-    public class portfolioValue : messageType { }
-    public class accountUpdateTime : messageType { }
-    public class nextValidId : messageType { }
-    public class contractData : messageType { }
-    public class executionData : messageType { }
-    public class marketDepth : messageType { }
-    public class marketDepthL2 : messageType { }
-    public class newsBulletins : messageType { }
-    public class managedAccounts : messageType { }
-    public class receiveFA : messageType { }
-    public class historicalData : messageType { }
-    public class bondContractData : messageType { }
-    public class scannerParameters : messageType { }
-    public class scannerData : messageType { }
-    public class tickOptionComputation : messageType { }
-    public class tickGeneric : messageType { }
-    public class tickstring : messageType { }
-    public class tickEFP : messageType { }
-    public class currentTime : messageType { }
-    public class realTimeBars : messageType { }
-    public class fundamentalData : messageType { }
-    public class contractDataEnd : messageType { }
-    public class openOrderEnd : messageType { }
-    public class accountDownloadEnd : messageType { }
-    public class executionDataEnd : messageType { }
-    public class deltaNeutralValidation : messageType { }
-    public class tickSnapshotEnd : messageType { }
-    public class marketDataType : messageType { }
-    public class commissionsReport : messageType { }
-    public class position : messageType { }
-    public class positionEnd : messageType { }
-    public class accountSummary : messageType { }
-    public class accountSummaryEnd : messageType { }
-    public class positionMulti : messageType { }
-    public class positionMultiEnd : messageType { }
-    public class accountUpdateMulti : messageType { }
-    public class accountUpdateMultiEnd : messageType { }
-    public class securityDefinitionOptionParameter : messageType { }
-    public class securityDefinitionOptionParameterEnd : messageType { }
-    public class connectionStatus : messageType { }
-    public class historicalDataEnd : messageType { }
-    public class scannerDataEnd : messageType { }
-
-    public abstract class message<T> where T : messageType
+    public enum messageType
     {
-        protected T type_;
-        public T type
-        {
-            get { return type_; }
-            set { type_ = value; }
-        }
+        tickPrice = 1,
+        tickSize = 2,
+        orderStatus = 3,
+        error = 4,
+        openOrder = 5,
+        accountValue = 6,
+        portfolioValue = 7,
+        accountUpdateTime = 8,
+        nextValidId = 9,
+        contractData = 10,
+        executionData = 11,
+        marketDepth = 12,
+        marketDepthL2 = 13,
+        newsBulletins = 14,
+        managedAccounts = 15,
+        receiveFA = 16,
+        historicalData = 17,
+        bondContractData = 18,
+        scannerParameters = 19,
+        scannerData = 20,
+        tickOptionComputation = 21,
+        tickGeneric = 45,
+        tickstring = 46,
+        tickEFP = 47,
+        currentTime = 49,
+        realTimeBars = 50,
+        fundamentalData = 51,
+        contractDataEnd = 52,
+        openOrderEnd = 53,
+        accountDownloadEnd = 54,
+        executionDataEnd = 55,
+        deltaNeutralValidation = 56,
+        tickSnapshotEnd = 57,
+        marketDataType = 58,
+        commissionsReport = 59,
+        position = 61,
+        positionEnd = 62,
+        accountSummary = 63,
+        accountSummaryEnd = 64,
+        positionMulti = 71,
+        positionMultiEnd = 72,
+        accountUpdateMulti = 73,
+        accountUpdateMultiEnd = 74,
+        securityDefinitionOptionParameter = 75,
+        securityDefinitionOptionParameterEnd = 76,
+
+        //Given that the TWS is not sending a termination message for the historical bars, we produce one
+        historicalDataEnd = 98,
+        scannerDataEnd = 99,
+        connectionStatus = 100,
+        unknown = 0
+    }
+
+    public abstract class message
+    {
+        public message(messageType type) {this.type = type; }
+        public messageType type { get; private set; }
     }
 }

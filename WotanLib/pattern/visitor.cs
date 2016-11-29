@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wotan
+namespace Wotan.pattern
 {
-    public class sink
+    public interface IAcyclicVisitor
     {
-        public sink(wrapper w)
-        {
-
-        }
+        void visit(object o);
     }
 }
