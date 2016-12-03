@@ -39,11 +39,11 @@ namespace Wotan
     {
         public enum businessDayConvention
         {
-            following = 1,
-            modifiedFollowing = 2,
-            preceding = 3,
-            unadjusted = 4,
-            unknown = 0
+            following           = 1,
+            modifiedFollowing   = 2,
+            preceding           = 3,
+            unadjusted          = 4,
+            unknown             = 0
         }
 
         protected calendar innerCalendar_;

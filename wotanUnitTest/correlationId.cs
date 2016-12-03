@@ -2,8 +2,9 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading;
 
-namespace wotanUnitTest
+namespace Wotan
 {
     /// <summary>
     /// Summary description for correlationId
@@ -11,11 +12,10 @@ namespace wotanUnitTest
     [TestClass]
     public class correlationId
     {
+        private correlationManager manager_;
         public correlationId()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            manager_ = new correlationManager();
         }
 
         private TestContext testContextInstance;
@@ -59,11 +59,18 @@ namespace wotanUnitTest
         #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void getCorrelationsSingleThread()
         {
-            //
-            // TODO: Add test logic here
-            //
+            Assert.IsTrue(manager_.next().id == 1);
+            Assert.IsTrue(manager_.next().id == 2);
+            Assert.IsTrue(manager_.next().id == 3);
+            Assert.IsTrue(manager_.next().id == 4);
+            Assert.IsTrue(manager_.next().id == 5);
+            Assert.IsTrue(manager_.next().id == 6);
+        }
+        public void getCorrelationsMiltiThread()
+        {
+            // TODO
         }
     }
 }

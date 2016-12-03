@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Wotan
 {
-    class singleton
+    interface ISingleton<T>
     {
+        T instance();
     }
 }

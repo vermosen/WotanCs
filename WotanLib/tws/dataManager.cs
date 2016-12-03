@@ -11,10 +11,12 @@ namespace Wotan
     public abstract class dataManager //where T : message
     {
         protected client client_;
+        protected correlationManager corr_;
 
-        public dataManager(client client)
+        public dataManager(client client, correlationManager corr)
         {
             client_ = client;
+            corr_ = corr;
         }
 
         public abstract void update(message message);

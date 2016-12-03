@@ -98,6 +98,10 @@ namespace Wotan
             dispatcher?.dispatch(new managedAccounts(accountsList));
         }
 
+        public override void nextValidId(int orderId)
+        {
+            //test
+        }
         public override void error(Exception e)
         {
             error(e.ToString());

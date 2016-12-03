@@ -1,14 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 
 namespace Wotan
 {
+    // TODO: use code contracts
+    //[DataContract(Name = "configuration")]
+    //public class configuration
+    //{
+    //    [DataContract(Name = "environment")]
+    //    public class IBEnvironment
+    //    {
+    //        [DataMember(IsRequired = true, Name = "application", Order = 0)]
+    //        public string application { get; private set; }
+    //    }
+    //}
+
     [Serializable]
     public class configuration
     {

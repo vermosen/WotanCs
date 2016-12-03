@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Wotan.tws
+namespace Wotan
 {
     public class correlationId<T> : IEquatable<correlationId<T>> where T : IEquatable<T>
     {
@@ -61,21 +61,33 @@ namespace Wotan.tws
         }
     }
 
-    public interface ICorrelationIdManager<T> where T : IEquatable<T>, new()
+    public abstract class correlationManagerBase<T> where T : IEquatable<T>, new()
     {
-        correlationId<T> next();
+        public abstract correlationId<T> next();
     }
 
-    public class guidCorrelationManager : ICorrelationIdManager<Guid>
+    public class correlationManager : correlationManagerBase<int>, ISingleton<correlationManager>
     {
-        public correlationId<Guid> next() { return new correlationId<Guid>(new Guid()); }
-    }
+        private static int previous_ = 0;
 
-    public class simpleCorrelationManager : ICorrelationIdManager<int>
-    {
-        private int previous_ = 0;
+        private static correlationManager instance_; 
 
-        public correlationId<int> next()
+        public correlationManager instance()
+        {
+            if (instance_ == null)
+            {
+                instance_ = new correlationManager();
+            }
+
+            return instance_;
+        }
+
+        public override correlationId<int> next()
+        {
+            return instance().nextImpl();
+        }
+
+        private correlationId<int> nextImpl()
         {
             return new correlationId<int>(Interlocked.Increment(ref previous_));
         }

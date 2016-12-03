@@ -6,9 +6,9 @@ namespace Wotan
 {
     public class historicalDataManager : dataManager
     {
-        public const int HISTORICAL_ID_BASE = 30000000;
+        private List<historicalData> data_;
 
-        public historicalDataManager(client ibClient) : base(ibClient)
+        public historicalDataManager(client ibClient, correlationManager corr) : base(ibClient, corr)
         {
             client_.dispatcher.register(
                 new Tuple<messageType, updateDelegate>[]
@@ -16,11 +16,14 @@ namespace Wotan
                     new Tuple<messageType, updateDelegate>(messageType.historicalData, update),
                     new Tuple<messageType, updateDelegate>(messageType.historicalDataEnd, end)
                 });
+
+            data_ = new List<historicalData>();
         }
 
         public void addRequest(Contract contract, string endDateTime, string durationString, string barSizeSetting, string whatToShow, int useRTH, int dateFormat)
         {
-            client_.socket.reqHistoricalData(   /*currentTicker + */HISTORICAL_ID_BASE,
+            corr_.next();
+            client_.socket.reqHistoricalData(   corr_.next().id,
                                                 contract, endDateTime,
                                                 durationString,
                                                 barSizeSetting,
@@ -30,12 +33,12 @@ namespace Wotan
 
         public override void update(message message)
         {
-            //
+            data_.Add(message as historicalData);
         }
 
         public void end(message message)
         {
-
+            
         }
 
         public override void clear() {}

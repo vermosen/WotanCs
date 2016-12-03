@@ -4,9 +4,7 @@ namespace Wotan
 {
     public class accountDataManager : dataManager
     {
-        public const int ACCOUNT_BASE = 10000000;
-
-        public accountDataManager(client ibClient) : base(ibClient)
+        public accountDataManager(client ibClient, correlationManager corr) : base(ibClient, corr)
         {
             client_.dispatcher.register(
                 new Tuple<messageType, updateDelegate>[]

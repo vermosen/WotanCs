@@ -17,6 +17,7 @@ namespace Wotan
         private EReaderMonitorSignal signal_;
         private client cli_;
         private historicalDataManager hist_;
+        private correlationManager corr_;
 
         // ctors
         [Obsolete]
@@ -24,6 +25,7 @@ namespace Wotan
         public serviceImpl(string[] args) : base(args)
         {
             signal_ = new EReaderMonitorSignal();
+            corr_ = new correlationManager();
         }
 
         // interfaces
@@ -47,7 +49,7 @@ namespace Wotan
                     }.Start();
 
                     // add historical data manager
-                    hist_ = new historicalDataManager(cli_);
+                    hist_ = new historicalDataManager(cli_, corr_);
 
                     hist_.addRequest(new Contract()
                     {

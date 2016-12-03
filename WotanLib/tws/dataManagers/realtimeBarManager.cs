@@ -10,9 +10,7 @@ namespace Wotan
 {
     public class realTimeBarsManager : dataManager
     {
-        public const int RT_BARS_ID_BASE = 40000000;
-
-        public realTimeBarsManager(client client) : base(client)
+        public realTimeBarsManager(client client, correlationManager corr) : base(client, corr)
         {
             client_.dispatcher.register(
                 new Tuple<messageType, updateDelegate>[]
@@ -28,12 +26,12 @@ namespace Wotan
 
         public void addRequest(Contract contract, string whatToShow, bool useRTH)
         {
-            client_.socket.reqRealTimeBars(RT_BARS_ID_BASE, contract, 5, whatToShow, useRTH, null);
+            client_.socket.reqRealTimeBars(corr_.next().id, contract, 5, whatToShow, useRTH, null);
         }
 
         public override void clear()
         {
-            client_.socket.cancelRealTimeBars(/*currentTicker + */RT_BARS_ID_BASE);
+            //client_.socket.cancelRealTimeBars(/*currentTicker + */1);
         }
 
         public override void notifyError(int requestId)

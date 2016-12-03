@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,11 +9,13 @@ namespace Wotan
 {
     public class historicalData : message
     {
+        private const string format = "yyyyMMdd";
+
         public historicalData(  int reqId, string date, double open, double high, double low, 
                                 double close, int volume, int count, double WAP, bool hasGaps) : base(messageType.historicalData)
         {
             this.reqId = reqId;
-            this.date = Convert.ToDateTime(date/*, new IFormatProvider()*/);
+            this.date = DateTime.ParseExact(date, format, CultureInfo.InvariantCulture);
             this.open = open;
             this.high = high;
             this.low = low;

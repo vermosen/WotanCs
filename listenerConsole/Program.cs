@@ -99,14 +99,13 @@ namespace Wotan
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-
-
             try
             {
                 serviceImpl srv = new serviceImpl(args);
                 srv.startDebug(null);
                 signal_.WaitOne();
                 srv.stopDebug();
+                Console.ReadKey();
                 return 0;
             }
             catch (Exception ex)
