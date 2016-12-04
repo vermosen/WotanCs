@@ -12,10 +12,10 @@ namespace Wotan
     [TestClass]
     public class correlationId
     {
-        private correlationManager manager_;
+        private actors.correlationManager manager_;
         public correlationId()
         {
-            manager_ = new correlationManager();
+            manager_ = new actors.correlationManager();
         }
 
         private TestContext testContextInstance;

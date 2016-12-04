@@ -30,10 +30,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Akka, Version=1.1.2.29, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Akka.1.1.2\lib\net45\Akka.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="CSharpAPI">
       <HintPath>..\..\..\TWS API\source\CSharpClient\client\bin\Release\CSharpAPI.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.3.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
@@ -51,14 +63,18 @@
     <Compile Include="pattern\visitor.cs" />
     <Compile Include="time\calendar.cs" />
     <Compile Include="time\period.cs" />
+    <Compile Include="tws\actors\client.cs" />
+    <Compile Include="tws\actors\correlationManager.cs" />
+    <Compile Include="tws\actors\dispatcher.cs" />
+    <Compile Include="tws\actors\manager.cs" />
     <Compile Include="tws\client.cs" />
-    <Compile Include="tws\correlationIdManager.cs" />
     <Compile Include="tws\dataManager.cs" />
     <Compile Include="tws\dataManagers\accountManager.cs" />
     <Compile Include="tws\dataManagers\historicalDataManager.cs" />
     <Compile Include="tws\dataManagers\realtimeBarManager.cs" />
     <Compile Include="tws\message.cs" />
     <Compile Include="tws\messages\connectionStatus.cs" />
+    <Compile Include="tws\messages\correlationId.cs" />
     <Compile Include="tws\messages\historicalData.cs" />
     <Compile Include="tws\messages\historicalDataEnd.cs" />
     <Compile Include="tws\messages\managedAccounts.cs" />
@@ -70,7 +86,13 @@
     </Compile>
     <Compile Include="application\xmlParser.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="tws\actors\managers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -8,3 +8,9 @@ C:\Git\Wotan\listenerService\bin\Debug\CSharpAPI.pdb
 C:\Git\Wotan\listenerService\obj\Debug\listenerService.csprojResolveAssemblyReference.cache
 C:\Git\Wotan\listenerService\obj\Debug\listenerService.exe
 C:\Git\Wotan\listenerService\obj\Debug\listenerService.pdb
+C:\Git\Wotan\listenerService\bin\Debug\Akka.dll
+C:\Git\Wotan\listenerService\bin\Debug\Newtonsoft.Json.dll
+C:\Git\Wotan\listenerService\bin\Debug\System.Collections.Immutable.dll
+C:\Git\Wotan\listenerService\bin\Debug\Akka.xml
+C:\Git\Wotan\listenerService\bin\Debug\Newtonsoft.Json.xml
+C:\Git\Wotan\listenerService\bin\Debug\System.Collections.Immutable.xml

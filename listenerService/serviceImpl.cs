@@ -1,36 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IBApi;
 using System.Diagnostics;
 using System.Threading;
+using IBApi;
+using Akka.Actor;
 
 namespace Wotan
 {
     // service implementation
     public class serviceImpl : service
     {
+        private static ActorSystem actorSystem_;
+
         private configuration config_;
         private EReaderMonitorSignal signal_;
         private client cli_;
         private historicalDataManager hist_;
-        private correlationManager corr_;
+        private IActorRef corr_;
 
         // ctors
         [Obsolete]
         private serviceImpl() : base(null) { }                                  // for designer only
         public serviceImpl(string[] args) : base(args)
         {
+            actorSystem_ = ActorSystem.Create("actorSystem");
+
+            // correltation manager
+            corr_ = actorSystem_.ActorOf(Props.Create<actors.correlationManager>(), "consoleWriterActor");
             signal_ = new EReaderMonitorSignal();
-            corr_ = new correlationManager();
         }
 
         // interfaces
         public override void onStartImpl(string[] args)
         {
+
             if (launchGatewayProcess())
             {
                 // connection attempt

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Akka.Actor;
+using System;
 
 namespace Wotan
 {
     public class accountDataManager : dataManager
     {
-        public accountDataManager(client ibClient, correlationManager corr) : base(ibClient, corr)
+        public accountDataManager(client ibClient, IActorRef corr) : base(ibClient, corr)
         {
             client_.dispatcher.register(
                 new Tuple<messageType, updateDelegate>[]

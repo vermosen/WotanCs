@@ -5,15 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using IBApi;
+using Akka.Actor;
 
 namespace Wotan
 {
     public abstract class dataManager //where T : message
     {
         protected client client_;
-        protected correlationManager corr_;
+        protected IActorRef corr_;
 
-        public dataManager(client client, correlationManager corr)
+        public dataManager(client client, IActorRef corr)
         {
             client_ = client;
             corr_ = corr;

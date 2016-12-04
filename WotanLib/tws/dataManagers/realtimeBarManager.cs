@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using IBApi;
+using Akka.Actor;
 
 namespace Wotan
 {
     public class realTimeBarsManager : dataManager
     {
-        public realTimeBarsManager(client client, correlationManager corr) : base(client, corr)
+        public realTimeBarsManager(client client, IActorRef corr) : base(client, corr)
         {
             client_.dispatcher.register(
                 new Tuple<messageType, updateDelegate>[]
@@ -26,7 +27,7 @@ namespace Wotan
 
         public void addRequest(Contract contract, string whatToShow, bool useRTH)
         {
-            client_.socket.reqRealTimeBars(corr_.next().id, contract, 5, whatToShow, useRTH, null);
+            client_.socket.reqRealTimeBars(/*corr_.next().id*/0, contract, 5, whatToShow, useRTH, null);
         }
 
         public override void clear()

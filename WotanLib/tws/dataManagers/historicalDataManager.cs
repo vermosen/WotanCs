@@ -1,4 +1,5 @@
-﻿using IBApi;
+﻿using Akka.Actor;
+using IBApi;
 using System;
 using System.Collections.Generic;
 
@@ -8,7 +9,7 @@ namespace Wotan
     {
         private List<historicalData> data_;
 
-        public historicalDataManager(client ibClient, correlationManager corr) : base(ibClient, corr)
+        public historicalDataManager(client ibClient, IActorRef corr) : base(ibClient, corr)
         {
             client_.dispatcher.register(
                 new Tuple<messageType, updateDelegate>[]
@@ -22,8 +23,8 @@ namespace Wotan
 
         public void addRequest(Contract contract, string endDateTime, string durationString, string barSizeSetting, string whatToShow, int useRTH, int dateFormat)
         {
-            corr_.next();
-            client_.socket.reqHistoricalData(   corr_.next().id,
+            //corr_.next();
+            client_.socket.reqHistoricalData(   /*corr_.next().id*/0,
                                                 contract, endDateTime,
                                                 durationString,
                                                 barSizeSetting,
