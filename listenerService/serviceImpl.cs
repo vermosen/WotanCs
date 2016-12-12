@@ -12,7 +12,7 @@ namespace Wotan
     {
         private static ActorSystem actorSystem_;
 
-        private configuration config_;
+        private configurationContract config_;
         private EReaderMonitorSignal signal_;
         private client cli_;
         private historicalDataManager hist_;
@@ -33,14 +33,13 @@ namespace Wotan
         // interfaces
         public override void onStartImpl(string[] args)
         {
-
             if (launchGatewayProcess())
             {
                 // connection attempt
                 try
                 {
                     cli_ = new client(signal_, log_);
-                    cli_.socket.eConnect("127.0.0.1", config_.interactiveBroker.port, 0);
+                    cli_.socket.eConnect("127.0.0.1", config_.ibEnvironment.credentials.port, 0);
 
                     var reader = new EReader(cli_.socket, signal_);
                     reader.Start();
@@ -65,13 +64,13 @@ namespace Wotan
                 }
                 catch (Exception ex)
                 {
-                    log_.add("an error has occurred: " + ex.ToString(),
+                    log_?.add("an error has occurred: " + ex.ToString(),
                         logType.error, verbosity.high);
                 }
             }
             else
             {
-                log_.add("no running ibgateway process found, shutting down the service...",
+                log_?.add("no running ibgateway process found, shutting down the service...",
                     logType.info, verbosity.high);
 
                 Stop();
@@ -87,11 +86,10 @@ namespace Wotan
         }
         public override void loadPreferencesImpl(string xmlPath)
         {
-            config_ = (new xmlParser<configuration>()).ToObject(
-                new FileStream(Path.GetFullPath(xmlPath), FileMode.Open, FileAccess.Read, FileShare.Read));
+            config_ = (new contractSerializer<configurationContract>()).deserializeFromFile(xmlPath);
 
             // set the logger
-            if (config_.logger != null) log_ = config_.logger.create();
+            log_ = config_.logger?.create();
         }
 
         // methods
@@ -101,7 +99,7 @@ namespace Wotan
 
             if (pname.Length != 0)
             {
-                log_.add("ibgateway process is up and running",
+                log_?.add("ibgateway process is up and running",
                     logType.info, verbosity.medium);
 
                 return true;

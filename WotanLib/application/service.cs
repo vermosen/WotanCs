@@ -9,11 +9,12 @@ namespace Wotan
     // base class for windows service with log and 
     public abstract class service : ServiceBase
     {
-        // default log
-        protected logger log_ = new winLogger("Application", "Application", verbosity.low);
+        // log
+        protected logger log_;
 
         public service(string[] args)
         {
+            // temp logs
             List<Tuple<string, logType, verbosity, int>> temp = new List<Tuple<string, logType, verbosity, int>>();
 
             try
@@ -105,12 +106,9 @@ namespace Wotan
             }
             finally
             {
-                if (log_ != null)
+                foreach (var t in temp)
                 {
-                    foreach (var t in temp)
-                    {
-                        log_.add(t.Item1, t.Item2, t.Item3, t.Item4);
-                    }
+                    log_?.add(t.Item1, t.Item2, t.Item3, t.Item4);
                 }
             }
 
@@ -131,7 +129,7 @@ namespace Wotan
             }
             catch (Exception ex)
             {
-                log_.add("an error has occurred: " + ex.Message + Environment.NewLine + 
+                log_?.add("an error has occurred: " + ex.Message + Environment.NewLine + 
                          "Shutting down the service...", logType.error, verbosity.high);
                 Stop();
             }
@@ -145,7 +143,7 @@ namespace Wotan
             }
             catch (Exception ex)
             {
-                log_.add("an error has occurred while shutting down the service: " + ex.Message,
+                log_?.add("an error has occurred while shutting down the service: " + ex.Message,
                     logType.error, verbosity.high);
             }
             

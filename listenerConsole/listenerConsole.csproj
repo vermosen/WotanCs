@@ -83,13 +83,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\listenerService\settings\DEV\listener.xml">
-      <Link>settings\DEV\listener.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="settings\PROD\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="settings\PROD\" />
+    <Content Include="settings\DEV\configuration.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

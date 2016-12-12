@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Runtime.Serialization;
 using System.IO;
+using Wotan;
 
 namespace wotanUnitTest
 {
@@ -130,6 +131,41 @@ namespace wotanUnitTest
                                             "<member><parent><myValue>1</myValue></parent>" + 
                                             "<parent i:type=\"child\"><myValue>1</myValue>" + 
                                             "<myOtherValue>hello</myOtherValue></parent></member></container>");
+                }
+            }
+        }
+        [TestMethod]
+        public void serializeConfigurationContract()
+        {
+            configurationContract c = new configurationContract()
+            {
+                logger = new winLoggerContract
+                {
+                    log = "myLog",
+                    source = "mySource",
+                    threshold = verbosity.high
+                },
+                ibEnvironment = new interactiveBroker
+                {
+                    application = @"my\Application\path.exe",
+                    credentials = new credentials
+                    {
+                        accountType = accountType.live,
+                        login = new encryptedString { decrypted = "foo" },
+                        password = new encryptedString { decrypted = "ffo" },
+                        port = 4001
+                    }
+                }
+            };
+
+            using (var s = new contractSerializer<configurationContract>())
+            {
+                using (MemoryStream ms = (MemoryStream)s.fromObject(c))
+                {
+                    using (StreamReader reader = new StreamReader(ms))
+                    {
+                        string res = reader.ReadToEnd();
+                    }
                 }
             }
         }

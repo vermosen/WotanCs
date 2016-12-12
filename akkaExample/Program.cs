@@ -81,7 +81,7 @@ namespace akkaExample
 
             IActorRef sink_ = actorSystem_.ActorOf(Props.Create<sink>(workers_), "sink");
 
-            sink_.Tell()
+            //sink_.Tell();
         }
     }
 }

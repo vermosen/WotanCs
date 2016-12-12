@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration xmlns="http://schemas.datacontract.org/2004/07/Wotan" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <logger i:type="winLoggerContract">
+    <threshold>high</threshold>
+    <log>interactive broker</log>
+    <source>listener</source>
+  </logger>
+  <interactiveBroker>
+    <application>C:\Jts\ibgateway\960\ibgateway.exe</application>
+    <credentials>
+      <accountType>paper</accountType>
+      <login>
+        <decrypted>foo</decrypted>
+      </login>
+      <password>
+        <decrypted>ffo</decrypted>
+      </password>
+      <port>4001</port>
+    </credentials>
+  </interactiveBroker>
+</configuration>
