@@ -3,17 +3,20 @@ using System.ServiceProcess;
 using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Akka.Actor;
 
 namespace Wotan
 {
     // base class for windows service with log and 
     public abstract class service : ServiceBase
     {
-        // log
-        protected logger log_;
+        protected static ActorSystem actorSystem_;
+        protected static IActorRef logger_;
 
         public service(string[] args)
         {
+            actorSystem_ = ActorSystem.Create("actorSystem");
+
             // temp logs
             List<Tuple<string, logType, verbosity, int>> temp = new List<Tuple<string, logType, verbosity, int>>();
 
@@ -73,7 +76,7 @@ namespace Wotan
                                             logType.error, verbosity.high, 0));
                                     else
                                     {
-                                        loadPreferencesImpl(s[1]);
+                                        loadPreferencesImpl(Path.GetFullPath(s[1]));
                                     }
                                 }
 
@@ -108,7 +111,7 @@ namespace Wotan
             {
                 foreach (var t in temp)
                 {
-                    log_?.add(t.Item1, t.Item2, t.Item3, t.Item4);
+                    logger_?.Tell(new actors.log(t.Item1, t.Item2, t.Item3, t.Item4));
                 }
             }
 
@@ -129,8 +132,8 @@ namespace Wotan
             }
             catch (Exception ex)
             {
-                log_?.add("an error has occurred: " + ex.Message + Environment.NewLine + 
-                         "Shutting down the service...", logType.error, verbosity.high);
+                logger_?.Tell(new actors.log("an error has occurred: " + ex.Message + Environment.NewLine + 
+                         "Shutting down the service...", logType.error, verbosity.high));
                 Stop();
             }
         }
@@ -143,10 +146,9 @@ namespace Wotan
             }
             catch (Exception ex)
             {
-                log_?.add("an error has occurred while shutting down the service: " + ex.Message,
-                    logType.error, verbosity.high);
+                logger_?.Tell(new actors.log("an error has occurred while shutting down the service: " + ex.Message,
+                    logType.error, verbosity.high));
             }
-            
         }
 
         #if DEBUG

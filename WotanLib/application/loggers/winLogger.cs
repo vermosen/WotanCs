@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Wotan
 {
@@ -28,17 +24,17 @@ namespace Wotan
             {
                 case logType.error:
                     {
-                        EventLog.WriteEntry(source_, log_, EventLogEntryType.Error, eventId);
+                        EventLog.WriteEntry(source_, message, EventLogEntryType.Error, eventId);
                         break;
                     }
                 case logType.info:
                     {
-                        EventLog.WriteEntry(source_, log_, EventLogEntryType.Information, eventId);
+                        EventLog.WriteEntry(source_, message, EventLogEntryType.Information, eventId);
                         break;
                     }
                 case logType.warning:
                     {
-                        EventLog.WriteEntry(source_, log_, EventLogEntryType.Warning, eventId);
+                        EventLog.WriteEntry(source_, message, EventLogEntryType.Warning, eventId);
                         break;
                     }
                 default:

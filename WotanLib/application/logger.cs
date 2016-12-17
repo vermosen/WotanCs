@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
-
-namespace Wotan
+﻿namespace Wotan
 {
     public enum logType
     {

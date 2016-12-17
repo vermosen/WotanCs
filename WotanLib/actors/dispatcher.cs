@@ -1,20 +1,22 @@
 ﻿using Akka.Actor;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Wotan.actors
 {
     public class dispatcher : TypedActor, IHandle<message>
     {
-        private logger log_;
+        private IActorRef log_;
 
         // TODO : see if we may have a static array instead...
         // may have to change to IActorRef or List of IActorRef...
         private Dictionary<messageType, updateDelegate> map_;
+
+        public static Props Props(IActorRef logger)
+        {
+            return Akka.Actor.Props.Create(() => new dispatcher(logger));
+        }
+
 
         public void Handle(message m)
         {
@@ -26,7 +28,7 @@ namespace Wotan.actors
             //Do something with the message.
         }
 
-        public dispatcher(logger log)
+        public dispatcher(IActorRef log)
         {
             log_ = log;
             map_ = new Dictionary<messageType, updateDelegate>();

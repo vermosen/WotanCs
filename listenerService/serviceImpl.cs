@@ -1,33 +1,26 @@
 ﻿using System;
-using System.IO;
 using System.Diagnostics;
-using System.Threading;
-using IBApi;
 using Akka.Actor;
+using System.Net;
 
 namespace Wotan
 {
     // service implementation
     public class serviceImpl : service
     {
-        private static ActorSystem actorSystem_;
-
         private configurationContract config_;
-        private EReaderMonitorSignal signal_;
-        private client cli_;
-        private historicalDataManager hist_;
+
+        private IActorRef hist_;
         private IActorRef corr_;
+        private IActorRef client_;
 
         // ctors
         [Obsolete]
         private serviceImpl() : base(null) { }                                  // for designer only
         public serviceImpl(string[] args) : base(args)
         {
-            actorSystem_ = ActorSystem.Create("actorSystem");
-
-            // correltation manager
-            corr_ = actorSystem_.ActorOf(Props.Create<actors.correlationManager>(), "consoleWriterActor");
-            signal_ = new EReaderMonitorSignal();
+            // correlation manager
+            corr_ = actorSystem_.ActorOf(Props.Create<actors.correlationManager>(), "correlationActor");
         }
 
         // interfaces
@@ -38,58 +31,53 @@ namespace Wotan
                 // connection attempt
                 try
                 {
-                    cli_ = new client(signal_, log_);
-                    cli_.socket.eConnect("127.0.0.1", config_.ibEnvironment.credentials.port, 0);
+                    // create the client
+                    client_ = actorSystem_.ActorOf(actors.client.Props(corr_, logger_), "clientActor");
 
-                    var reader = new EReader(cli_.socket, signal_);
-                    reader.Start();
-
-                    new Thread(() => { while (cli_.socket.IsConnected()) { signal_.waitForSignal(); reader.processMsgs(); } })
-                    {
-                        Name = "reading thread",
-                        IsBackground = true
-                    }.Start();
+                    client_.Tell(new actors.connect(IPAddress.Parse("127.0.0.1"), config_.ibEnvironment.credentials.port));
 
                     // add historical data manager
-                    hist_ = new historicalDataManager(cli_, corr_);
+                    hist_ = actorSystem_.ActorOf(actors.historicalManager.Props(client_, logger_), "historicalManagerActor");
 
-                    hist_.addRequest(new Contract()
-                    {
-                        Symbol = "SDS",
-                        SecType = "STK",
-                        Exchange = "SMART",
-                        Currency = "USD"
-                    }, "20161127 10:28:43", "10 D", "1 day", "MIDPOINT", 0, 1);
-
+                    //hist_.addRequest(new Contract()
+                    //{
+                    //    Symbol = "SDS",
+                    //    SecType = "STK",
+                    //    Exchange = "SMART",
+                    //    Currency = "USD"
+                    //}, "20161127 10:28:43", "10 D", "1 day", "MIDPOINT", 0, 1);
                 }
                 catch (Exception ex)
                 {
-                    log_?.add("an error has occurred: " + ex.ToString(),
-                        logType.error, verbosity.high);
+                    logger_?.Tell(new actors.log("an error has occurred: " + ex.ToString(),
+                        logType.error, verbosity.high));
                 }
             }
             else
             {
-                log_?.add("no running ibgateway process found, shutting down the service...",
-                    logType.info, verbosity.high);
+                logger_?.Tell(new actors.log("no running ibgateway process found, shutting down the service...",
+                    logType.error, verbosity.high));
 
                 Stop();
             }
         }
         public override void onStopImpl()
         {
-            if (cli_ != null)
+            if (client_ != null)
             {
-                cli_.socket.eDisconnect();
+                // send client->disconnect
+                //client_.socket.eDisconnect();
             }
 
         }
         public override void loadPreferencesImpl(string xmlPath)
         {
-            config_ = (new contractSerializer<configurationContract>()).deserializeFromFile(xmlPath);
+            config_ = (new contractSerializer<configurationContract>())
+                .deserializeFromFile(xmlPath);
 
-            // set the logger
-            log_ = config_.logger?.create();
+            // logger
+            logger_ = actorSystem_.ActorOf(Props.Create<actors.logger>(
+                config_.logger.create()), "logActor");
         }
 
         // methods
@@ -99,8 +87,8 @@ namespace Wotan
 
             if (pname.Length != 0)
             {
-                log_?.add("ibgateway process is up and running",
-                    logType.info, verbosity.medium);
+                logger_?.Tell(new actors.log("ibgateway process is up and running",
+                    logType.error, verbosity.high));
 
                 return true;
             }

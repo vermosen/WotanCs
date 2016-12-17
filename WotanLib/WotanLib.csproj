@@ -57,6 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="actors\managers\historicalManager.cs" />
+    <Compile Include="actors\signal.cs" />
     <Compile Include="application\configuration.cs" />
     <Compile Include="application\loggers\consoleLogger.cs" />
     <Compile Include="application\loggers\nullLogger.cs" />
@@ -70,11 +72,11 @@
     <Compile Include="pattern\visitor.cs" />
     <Compile Include="time\calendar.cs" />
     <Compile Include="time\period.cs" />
-    <Compile Include="tws\actors\client.cs" />
-    <Compile Include="tws\actors\correlationManager.cs" />
-    <Compile Include="tws\actors\dispatcher.cs" />
-    <Compile Include="tws\actors\logger.cs" />
-    <Compile Include="tws\actors\manager.cs" />
+    <Compile Include="actors\client.cs" />
+    <Compile Include="actors\correlationManager.cs" />
+    <Compile Include="actors\dispatcher.cs" />
+    <Compile Include="actors\logger.cs" />
+    <Compile Include="actors\manager.cs" />
     <Compile Include="tws\client.cs" />
     <Compile Include="tws\dataManager.cs" />
     <Compile Include="tws\dataManagers\accountManager.cs" />
@@ -95,9 +97,7 @@
     </Compile>
     <Compile Include="application\serializers\xmlSerializer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="tws\actors\managers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
