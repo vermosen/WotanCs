@@ -27,7 +27,7 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
-listenerConsole/settings/DEV/listener.xml
-listenerConsole/settings/PROD/listener.xml
-listenerService/settings/DEV/listener.xml
-listenerService/settings/PROD/listener.xml
+listenerConsole/settings/*
+listenerService/settings/*
+**/packages/*
+*.suo
