@@ -10,11 +10,11 @@ namespace Wotan
     {
         public realTimeBarsManager(client client, IActorRef corr) : base(client, corr)
         {
-            client_.dispatcher.register(
-                new Tuple<messageType, updateDelegate>[]
-                {
-                    new Tuple<messageType, updateDelegate>(messageType.realTimeBars, update)
-                });
+            //client_.dispatcher.register(
+            //    new Tuple<messageType, updateDelegate>[]
+            //    {
+            //        new Tuple<messageType, updateDelegate>(messageType.realTimeBars, update)
+            //    });
         }
 
         public override void update(message message)

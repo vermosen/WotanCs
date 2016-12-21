@@ -2,11 +2,11 @@
 using IBApi;
 using System.Net;
 using System.Threading;
+using System;
 
 namespace Wotan.actors
 {
-    public abstract class clientSignal : signal { }
-    public class connect : clientSignal
+    public class connect : signal
     {
         public IPAddress host { get; private set; }
         public int port { get; private set; }
@@ -17,10 +17,12 @@ namespace Wotan.actors
             this.port = port;
         }
     }
-    public class disconnect : clientSignal { }
+    public class disconnect : signal { }
+
+    public delegate void dispatchDlg(message m);
 
     // client is strongly typed
-    public class client : TypedActor, IHandle<connect>, IHandle<disconnect>
+    public class client : TypedActor, IHandle<connect>, IHandle<disconnect>, IHandle<historicalRequest>
     {
         private readonly IActorRef dispatcher_;
         private readonly IActorRef correlationManager_;
@@ -43,7 +45,7 @@ namespace Wotan.actors
 
             // tws components
             signal_ = new EReaderMonitorSignal();
-            client_ = new Wotan.client(signal_, null);
+            client_ = new Wotan.client(signal_, new dispatchDlg(dispatch), new logDlg(log));
         }
 
         public void Handle(connect message)
@@ -70,6 +72,25 @@ namespace Wotan.actors
                 // connect
                 client_.socket.eDisconnect();
             }
+        }
+
+        public void Handle(historicalRequest message)
+        {
+            if (client_.socket.IsConnected())
+            {
+
+            }
+        }
+
+        // callbacks
+        private void dispatch(message m)
+        {
+            dispatcher_.Tell(m);
+        }
+
+        private void log(log m)
+        {
+            logger_.Tell(m);
         }
     }
 }

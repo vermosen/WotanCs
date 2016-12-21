@@ -7,11 +7,11 @@ namespace Wotan
     {
         public accountDataManager(client ibClient, IActorRef corr) : base(ibClient, corr)
         {
-            client_.dispatcher.register(
-                new Tuple<messageType, updateDelegate>[]
-                {
-                    new Tuple<messageType, updateDelegate>(messageType.managedAccounts, update)
-                });
+            //client_.dispatcher.register(
+            //    new Tuple<messageType, updateDelegate>[]
+            //    {
+            //        new Tuple<messageType, updateDelegate>(messageType.managedAccounts, update)
+            //    });
         }
 
         public override void update(message message)

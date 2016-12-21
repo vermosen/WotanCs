@@ -17,6 +17,8 @@ namespace Wotan.actors
         public int eventId { get; private set; }
     }
 
+    public delegate void logDlg(log l);
+
     public class logger : TypedActor, IHandle<log>
     {
         private Wotan.logger logger_;

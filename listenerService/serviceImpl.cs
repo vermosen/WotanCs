@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Akka.Actor;
 using System.Net;
+using IBApi;
 
 namespace Wotan
 {
@@ -39,13 +40,16 @@ namespace Wotan
                     // add historical data manager
                     hist_ = actorSystem_.ActorOf(actors.historicalManager.Props(client_, logger_), "historicalManagerActor");
 
-                    //hist_.addRequest(new Contract()
-                    //{
-                    //    Symbol = "SDS",
-                    //    SecType = "STK",
-                    //    Exchange = "SMART",
-                    //    Currency = "USD"
-                    //}, "20161127 10:28:43", "10 D", "1 day", "MIDPOINT", 0, 1);
+                    hist_.Tell(new actors.historicalRequest(new Contract()
+                    {
+                        Symbol = "SDS",
+                        SecType = "STK",
+                        Exchange = "SMART",
+                        Currency = "USD"
+                    },  new DateTime(2016, 11, 27, 10, 28, 43), 
+                        new TimeSpan(10, 0, 0, 0, 0), 
+                        new TimeSpan(1, 0, 0, 0, 0), 
+                        actors.barType.MIDPOINT, 0, 1));
                 }
                 catch (Exception ex)
                 {

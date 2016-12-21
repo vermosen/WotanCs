@@ -40,20 +40,19 @@ namespace Wotan
 
     public class client : eWrapperImpl
     {
-        private logger log_;
+        private actors.logDlg log_;
+        private actors.dispatchDlg dispatch_;
         private EClientSocket socket_;
 
         protected bool isConnected_;
         protected int serverVersion_;
 
-        public messageDispatcher dispatcher { get; set; }
-
-        public client(EReaderSignal reader, logger log)
+        public client(EReaderSignal reader, actors.dispatchDlg dispatch, actors.logDlg log)
         {
             isConnected_ = false;
             log_ = log;
+            dispatch_ = dispatch;
             socket_ = new EClientSocket(this, reader);
-            dispatcher = new messageDispatcher(log_);
         }
         public EClientSocket socket
         {
@@ -86,16 +85,16 @@ namespace Wotan
 
         public override void historicalData(int reqId, string date, double open, double high, double low, double close, int volume, int count, double WAP, bool hasGaps)
         {
-            dispatcher?.dispatch(new historicalData(reqId, date, open, high, low, close, volume, count, WAP, hasGaps));
+            dispatch_?.Invoke(new historicalData(reqId, date, open, high, low, close, volume, count, WAP, hasGaps));
         }        
 
         public override void historicalDataEnd(int reqId, string startDate, string endDate)
         {
-            dispatcher?.dispatch(new historicalDataEnd(reqId, startDate, endDate));
+            dispatch_?.Invoke(new historicalDataEnd(reqId, startDate, endDate));
         }
         public override void managedAccounts(string accountsList)
         {
-            dispatcher?.dispatch(new managedAccounts(accountsList));
+            dispatch_?.Invoke(new managedAccounts(accountsList));
         }
 
         public override void nextValidId(int orderId)
@@ -109,7 +108,7 @@ namespace Wotan
 
         public override void error(string str)
         {
-            log_?.add(str, logType.error, verbosity.high);
+            log_?.Invoke(new actors.log(str, logType.error, verbosity.high));
         }
 
         public override void error(int id, int errorCode, string errorMsg)

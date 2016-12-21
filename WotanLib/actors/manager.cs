@@ -9,7 +9,8 @@ namespace Wotan.actors
 
         public manager(IActorRef client, IActorRef logger)
         {
-
+            client_ = client;
+            logger_ = logger;
         }
     }
 }

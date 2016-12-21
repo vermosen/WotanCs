@@ -11,12 +11,12 @@ namespace Wotan
 
         public historicalDataManager(client ibClient, IActorRef corr) : base(ibClient, corr)
         {
-            client_.dispatcher.register(
-                new Tuple<messageType, updateDelegate>[]
-                {
-                    new Tuple<messageType, updateDelegate>(messageType.historicalData, update),
-                    new Tuple<messageType, updateDelegate>(messageType.historicalDataEnd, end)
-                });
+            //client_.dispatcher.register(
+            //    new Tuple<messageType, updateDelegate>[]
+            //    {
+            //        new Tuple<messageType, updateDelegate>(messageType.historicalData, update),
+            //        new Tuple<messageType, updateDelegate>(messageType.historicalDataEnd, end)
+            //    });
 
             data_ = new List<historicalData>();
         }
