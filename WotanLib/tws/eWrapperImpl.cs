@@ -37,11 +37,11 @@ namespace Wotan
         }
         public virtual void connectAck()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         public virtual void connectionClosed()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         public virtual void contractDetails(int reqId, ContractDetails contractDetails)
         {

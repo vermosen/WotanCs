@@ -38,9 +38,6 @@ namespace Wotan
 
                     client_.Tell(new actors.connect(IPAddress.Parse("127.0.0.1"), config_.ibEnvironment.credentials.port));
 
-                    // need some time to establish the connection
-                    Thread.Sleep(5000);
-
                     // add historical data manager
                     hist_ = actorSystem_.ActorOf(actors.historicalManager.Props(client_, /*corr_,*/ logger_), "historicalManagerActor");
 

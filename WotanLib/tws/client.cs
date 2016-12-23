@@ -47,12 +47,12 @@ namespace Wotan
         protected bool isConnected_;
         protected int serverVersion_;
 
-        public client(EReaderSignal reader, actors.dispatchDlg dispatch, actors.logDlg log)
+        public client(EReaderMonitorSignal reader, actors.dispatchDlg dispatch, actors.logDlg log, bool aSync = true)
         {
             isConnected_ = false;
             log_ = log;
             dispatch_ = dispatch;
-            socket_ = new EClientSocket(this, reader) { AsyncEConnect = true };
+            socket_ = new EClientSocket(this, reader) { AsyncEConnect = aSync };
         }
         public EClientSocket socket
         {

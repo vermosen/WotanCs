@@ -28,7 +28,7 @@ namespace Wotan.actors
         private readonly IActorRef logger_;
 
         private readonly Wotan.client   client_;
-        private EReaderSignal           signal_;
+        private EReaderMonitorSignal    signal_;
         private EReader                 reader_;
 
         public static Props Props(IActorRef correlationManager, IActorRef logger)
@@ -45,7 +45,7 @@ namespace Wotan.actors
 
             // tws components
             signal_ = new EReaderMonitorSignal();
-            client_ = new Wotan.client(signal_, new dispatchDlg(dispatch), new logDlg(log));
+            client_ = new Wotan.client(signal_, new dispatchDlg(dispatch), new logDlg(log), false);
         }
 
         public void Handle(connect m)

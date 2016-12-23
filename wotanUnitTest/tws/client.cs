@@ -14,9 +14,6 @@ namespace wotanUnitTest.tws
     [TestClass]
     public class client
     {
-        private EReaderSignal signal_;
-        private Wotan.client client_;
-
         private void dummy1(Wotan.message m)
         {
 
@@ -28,8 +25,7 @@ namespace wotanUnitTest.tws
 
         public client()
         {
-            client_ = new Wotan.client(signal_, new dispatchDlg(dummy1), new logDlg(dummy2));
-            signal_ = new EReaderMonitorSignal();
+
         }
 
         private TestContext testContextInstance;
@@ -73,16 +69,16 @@ namespace wotanUnitTest.tws
         #endregion
 
         [TestMethod]
-        public void connect()
+        public void connectSync()
         {
+            EReaderMonitorSignal signal_ = new EReaderMonitorSignal();
+            Wotan.client client_ = new Wotan.client(signal_, new dispatchDlg(dummy1), new logDlg(dummy2));
+
             if (!client_.socket.IsConnected())
             {
-                client_.socket.eConnect("127.0.0.1", 4001, 1);
+                client_.socket.eConnect("127.0.0.1", 4001, 0);
                 EReader reader = new EReader(client_.socket, signal_);
                 reader.Start();
-                client_.connectAck();
-
-                Thread.Sleep(1000);
 
                 new Thread(() =>
                 {
@@ -93,6 +89,9 @@ namespace wotanUnitTest.tws
                     }
                 })
                 { Name = "reading thread", IsBackground = true }.Start();
+
+                Thread.Sleep(1000);
+                client_.socket.eDisconnect();
             }
         }
     }
