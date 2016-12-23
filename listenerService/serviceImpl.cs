@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Akka.Actor;
 using System.Net;
 using IBApi;
+using System.Threading;
 
 namespace Wotan
 {
@@ -37,8 +38,11 @@ namespace Wotan
 
                     client_.Tell(new actors.connect(IPAddress.Parse("127.0.0.1"), config_.ibEnvironment.credentials.port));
 
+                    // need some time to establish the connection
+                    Thread.Sleep(5000);
+
                     // add historical data manager
-                    hist_ = actorSystem_.ActorOf(actors.historicalManager.Props(client_, logger_), "historicalManagerActor");
+                    hist_ = actorSystem_.ActorOf(actors.historicalManager.Props(client_, /*corr_,*/ logger_), "historicalManagerActor");
 
                     hist_.Tell(new actors.historicalRequest(new Contract()
                     {
@@ -46,10 +50,12 @@ namespace Wotan
                         SecType = "STK",
                         Exchange = "SMART",
                         Currency = "USD"
-                    },  new DateTime(2016, 11, 27, 10, 28, 43), 
-                        new TimeSpan(10, 0, 0, 0, 0), 
-                        new TimeSpan(1, 0, 0, 0, 0), 
+                    }, new DateTime(2016, 11, 27, 10, 28, 43),
+                        new TimeSpan(10, 0, 0, 0, 0),
+                        new TimeSpan(1, 0, 0, 0, 0),
                         actors.barType.MIDPOINT, 0, 1));
+
+                    
                 }
                 catch (Exception ex)
                 {
@@ -67,12 +73,9 @@ namespace Wotan
         }
         public override void onStopImpl()
         {
-            if (client_ != null)
-            {
-                // send client->disconnect
-                //client_.socket.eDisconnect();
-            }
+            client_?.Tell(new actors.disconnect());
 
+            Thread.Sleep(5000);
         }
         public override void loadPreferencesImpl(string xmlPath)
         {

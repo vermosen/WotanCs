@@ -9,6 +9,12 @@ namespace Wotan.actors
     {
         public IActorRef actor { get; private set; }
         public messageType[] types { get; private set; }
+
+        public registration(IActorRef actor, messageType[] types)
+        {
+            this.actor = actor;
+            this.types = types;
+        }
     }
 
     public class dispatcher : TypedActor, IHandle<message>, IHandle<registration>
@@ -27,9 +33,12 @@ namespace Wotan.actors
 
         public void Handle(message m)
         {
-            foreach (var i in map_[m.type])
+            if (map_.ContainsKey(m.type))
             {
-                i.Tell(m);
+                foreach (var i in map_[m.type])
+                {
+                    i.Tell(m);
+                }
             }
         }
 
@@ -45,11 +54,16 @@ namespace Wotan.actors
             map_ = new Dictionary<messageType, LinkedList<IActorRef>>();
         }
 
-        public void Handle(registration message)
+        public void Handle(registration m)
         {
-            foreach (var i in message.types)
+            foreach (var i in m.types)
             {
-                map_[i].AddLast(message.actor);
+                if (!map_.ContainsKey(i))
+                {
+                    map_.Add(i, new LinkedList<IActorRef>());
+                }
+
+                map_[i].AddLast(m.actor);
             }
         }
     }

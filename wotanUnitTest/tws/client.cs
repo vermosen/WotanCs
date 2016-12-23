@@ -1,23 +1,35 @@
-﻿using Akka.Actor;
+﻿using System;
+using System.Text;
+using System.Collections.Generic;
+using Wotan.actors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using IBApi;
+using System.Threading;
 
-namespace Wotan
+namespace wotanUnitTest.tws
 {
     /// <summary>
-    /// Summary description for correlationId
+    /// Summary description for client
     /// </summary>
     [TestClass]
-    public class correlationManager
+    public class client
     {
-        private ActorSystem actorSystem_;
+        private EReaderSignal signal_;
+        private Wotan.client client_;
 
-        private IActorRef manager_;
-
-        public correlationManager()
+        private void dummy1(Wotan.message m)
         {
-            actorSystem_ = ActorSystem.Create("actorSystem");
 
-            manager_ = actorSystem_.ActorOf(Props.Create<actors.correlationManager>(), "correlationActor");
+        }
+        private void dummy2(log l)
+        {
+
+        }
+
+        public client()
+        {
+            client_ = new Wotan.client(signal_, new dispatchDlg(dummy1), new logDlg(dummy2));
+            signal_ = new EReaderMonitorSignal();
         }
 
         private TestContext testContextInstance;
@@ -61,20 +73,27 @@ namespace Wotan
         #endregion
 
         [TestMethod]
-        public void getCorrelationsSingleThread()
+        public void connect()
         {
-            //Assert.IsTrue(manager_.next().id == 1);
-            //Assert.IsTrue(manager_.next().id == 2);
-            //Assert.IsTrue(manager_.next().id == 3);
-            //Assert.IsTrue(manager_.next().id == 4);
-            //Assert.IsTrue(manager_.next().id == 5);
-            //Assert.IsTrue(manager_.next().id == 6);
-        }
+            if (!client_.socket.IsConnected())
+            {
+                client_.socket.eConnect("127.0.0.1", 4001, 1);
+                EReader reader = new EReader(client_.socket, signal_);
+                reader.Start();
+                client_.connectAck();
 
-        [TestMethod]
-        public void getCorrelationsMultiThread()
-        {
-            // TODO
+                Thread.Sleep(1000);
+
+                new Thread(() =>
+                {
+                    while (client_.socket.IsConnected())
+                    {
+                        signal_.waitForSignal();
+                        reader.processMsgs();
+                    }
+                })
+                { Name = "reading thread", IsBackground = true }.Start();
+            }
         }
     }
 }

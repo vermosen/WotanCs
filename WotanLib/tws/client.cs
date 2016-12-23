@@ -52,18 +52,12 @@ namespace Wotan
             isConnected_ = false;
             log_ = log;
             dispatch_ = dispatch;
-            socket_ = new EClientSocket(this, reader);
+            socket_ = new EClientSocket(this, reader) { AsyncEConnect = true };
         }
         public EClientSocket socket
         {
             get { return socket_; }
             set { socket_ = value; }
-        }
-
-        public void connect()
-        {
-            if (socket_.AsyncEConnect)
-                socket_.startApi();
         }
 
         public override void connectAck()

@@ -1,4 +1,3 @@
-C:\Git\Wotan\WotanLib\obj\Debug\WotanLib.csprojResolveAssemblyReference.cache
 C:\Git\Wotan\WotanLib\bin\Debug\WotanLib.dll.config
 C:\Git\Wotan\WotanLib\bin\Debug\WotanLib.dll
 C:\Git\Wotan\WotanLib\bin\Debug\WotanLib.pdb

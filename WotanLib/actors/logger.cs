@@ -4,11 +4,11 @@ namespace Wotan.actors
 {
     public class log
     {
-        public log(string message, logType type, verbosity v, int eventId = 0)
+        public log(string message, logType type, verbosity verbosity, int eventId = 0)
         {
             this.message = message;
             this.type = type;
-            this.verbosity = v;
+            this.verbosity = verbosity;
             this.eventId = eventId;
         }
         public string message { get; private set; }

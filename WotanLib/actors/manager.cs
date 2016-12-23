@@ -6,11 +6,13 @@ namespace Wotan.actors
     {
         protected IActorRef client_;
         protected IActorRef logger_;
+        //protected IActorRef corr_;
 
-        public manager(IActorRef client, IActorRef logger)
+        public manager(IActorRef client, /*IActorRef corr, */IActorRef logger)
         {
             client_ = client;
             logger_ = logger;
+            //corr_   = corr  ;
         }
     }
 }
