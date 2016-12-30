@@ -1,6 +1,6 @@
 ﻿namespace Wotan
 {
-    public class managedAccounts : message
+    public class managedAccounts : twsMessage
     {
         public string bla { get; private set; }
 

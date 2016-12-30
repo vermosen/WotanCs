@@ -57,8 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="actors\managers\historicalManager.cs" />
-    <Compile Include="actors\signal.cs" />
+    <Compile Include="actors\managers\historicalDataManager.cs" />
     <Compile Include="application\configuration.cs" />
     <Compile Include="application\loggers\consoleLogger.cs" />
     <Compile Include="application\loggers\nullLogger.cs" />
@@ -76,16 +75,12 @@
     <Compile Include="actors\correlationManager.cs" />
     <Compile Include="actors\dispatcher.cs" />
     <Compile Include="actors\logger.cs" />
-    <Compile Include="actors\manager.cs" />
+    <Compile Include="actors\dataManager.cs" />
     <Compile Include="tws\client.cs" />
-    <Compile Include="tws\dataManager.cs" />
-    <Compile Include="tws\dataManagers\accountManager.cs" />
-    <Compile Include="tws\dataManagers\historicalDataManager.cs" />
-    <Compile Include="tws\dataManagers\realtimeBarManager.cs" />
     <Compile Include="tws\gatewayManager\gatewayManager.cs" />
     <Compile Include="tws\message.cs" />
     <Compile Include="tws\messages\connectionStatus.cs" />
-    <Compile Include="tws\messages\correlationId.cs" />
+    <Compile Include="tws\correlationId.cs" />
     <Compile Include="tws\messages\historicalData.cs" />
     <Compile Include="tws\messages\historicalDataEnd.cs" />
     <Compile Include="tws\messages\managedAccounts.cs" />

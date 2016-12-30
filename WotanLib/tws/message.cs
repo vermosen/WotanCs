@@ -1,4 +1,6 @@
-﻿namespace Wotan
+﻿using System.Net;
+
+namespace Wotan
 {
     public enum messageType
     {
@@ -55,9 +57,24 @@
         unknown = 0
     }
 
-    public abstract class message
+    public interface IMessage {}
+
+    public abstract class twsMessage : IMessage
     {
-        public message(messageType type) {this.type = type; }
+        public twsMessage(messageType type) {this.type = type; }
         public messageType type { get; private set; }
     }
+
+    public class connect : IMessage
+    {
+        public IPAddress host { get; private set; }
+        public int port { get; private set; }
+
+        public connect(IPAddress host, int port)
+        {
+            this.host = host;
+            this.port = port;
+        }
+    }
+    public class disconnect : IMessage { }
 }

@@ -36,12 +36,12 @@ namespace Wotan
                     // create the client
                     client_ = actorSystem_.ActorOf(actors.client.Props(corr_, logger_), "clientActor");
 
-                    client_.Tell(new actors.connect(IPAddress.Parse("127.0.0.1"), config_.ibEnvironment.credentials.port));
+                    client_.Tell(new connect(config_.ibEnvironment.credentials.host, config_.ibEnvironment.credentials.port));
 
                     // add historical data manager
-                    hist_ = actorSystem_.ActorOf(actors.historicalManager.Props(client_, /*corr_,*/ logger_), "historicalManagerActor");
+                    hist_ = actorSystem_.ActorOf(actors.historicalDataManager.Props(client_, /*corr_,*/ logger_), "historicalManagerActor");
 
-                    hist_.Tell(new actors.historicalRequest(new Contract()
+                    hist_.Tell(new actors.historicalDataManager.request(new Contract()
                     {
                         Symbol = "SDS",
                         SecType = "STK",
@@ -50,7 +50,7 @@ namespace Wotan
                     }, new DateTime(2016, 11, 27, 10, 28, 43),
                         new TimeSpan(10, 0, 0, 0, 0),
                         new TimeSpan(1, 0, 0, 0, 0),
-                        actors.barType.MIDPOINT, 0, 1));
+                        actors.historicalDataManager.barType.MIDPOINT, 0, 1));
 
                     
                 }
@@ -70,7 +70,7 @@ namespace Wotan
         }
         public override void onStopImpl()
         {
-            client_?.Tell(new actors.disconnect());
+            client_?.Tell(new disconnect());
 
             Thread.Sleep(5000);
         }
@@ -92,7 +92,7 @@ namespace Wotan
             if (pname.Length != 0)
             {
                 logger_?.Tell(new actors.log("ibgateway process is up and running",
-                    logType.error, verbosity.high));
+                    logType.info, verbosity.high));
 
                 return true;
             }

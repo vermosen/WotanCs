@@ -1,6 +1,6 @@
 ﻿namespace Wotan
 {
-    public class realTimeBar : message
+    public class realTimeBar : twsMessage
     {
         public realTimeBar() : base(messageType.realTimeBars) {}
     }

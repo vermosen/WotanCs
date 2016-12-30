@@ -1,16 +1,12 @@
 ﻿namespace Wotan
 {
-    public class connectionStatus : message
+    public class connectionStatus : twsMessage
     {
         public connectionStatus(bool isConnected) : base(messageType.connectionStatus)
         {
             this.isConnected = isConnected;
         }
 
-        public bool isConnected
-        {
-            get;
-            private set;
-        }
+        public bool isConnected { get; private set; }
     }
 }

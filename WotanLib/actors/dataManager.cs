@@ -2,17 +2,17 @@
 
 namespace Wotan.actors
 {
-    public abstract class manager : TypedActor
+    public abstract class dataManager : TypedActor
     {
         protected IActorRef client_;
         protected IActorRef logger_;
-        //protected IActorRef corr_;
+        protected IActorRef corr_;
 
-        public manager(IActorRef client, /*IActorRef corr, */IActorRef logger)
+        public dataManager(IActorRef client, IActorRef corr, IActorRef logger)
         {
             client_ = client;
             logger_ = logger;
-            //corr_   = corr  ;
+            corr_   = corr  ;
         }
     }
 }

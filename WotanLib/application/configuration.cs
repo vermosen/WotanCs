@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Net;
+using System.Runtime.Serialization;
 
 namespace Wotan
 {
@@ -26,21 +27,32 @@ namespace Wotan
         }
     }
 
+    [DataContract]
     public class credentials
     {
-        [DataMember(IsRequired = true, Name = "login", Order = 0)]
+        [DataMember(IsRequired = true, Name = "accountType", Order = 0)]
+        public accountType accountType { get; set; }
+
+        [DataMember(IsRequired = true, Name = "login", Order = 3)]
         public encryptedString login { get; set; }
 
-        [DataMember(IsRequired = true, Name = "password", Order = 1)]
+        [DataMember(IsRequired = true, Name = "password", Order = 4)]
         public encryptedString password { get; set; }
+
+        [DataMember(IsRequired = true, Name = "host", Order = 1)]
+        private string _host { get; set; }
 
         [DataMember(IsRequired = true, Name = "port", Order = 2)]
         public int port { get; set; }
 
-        [DataMember(IsRequired = true, Name = "accountType", Order = 3)]
-        public accountType accountType { get; set; }
+        public IPAddress host
+        {
+            get { return IPAddress.Parse(_host); }
+            set { _host = value.ToString(); }
+        }
     }
 
+    [DataContract]
     public class interactiveBroker
     {
         [DataMember(IsRequired = true, Name = "application", Order = 0)]

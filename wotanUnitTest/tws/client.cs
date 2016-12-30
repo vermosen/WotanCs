@@ -5,6 +5,7 @@ using Wotan.actors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using IBApi;
 using System.Threading;
+using Wotan;
 
 namespace wotanUnitTest.tws
 {
@@ -14,15 +15,6 @@ namespace wotanUnitTest.tws
     [TestClass]
     public class client
     {
-        private void dummy1(Wotan.message m)
-        {
-
-        }
-        private void dummy2(log l)
-        {
-
-        }
-
         public client()
         {
 
@@ -72,7 +64,7 @@ namespace wotanUnitTest.tws
         public void connectSync()
         {
             EReaderMonitorSignal signal_ = new EReaderMonitorSignal();
-            Wotan.client client_ = new Wotan.client(signal_, new dispatchDlg(dummy1), new logDlg(dummy2));
+            Wotan.client client_ = new Wotan.client(signal_, new dispatchDlg((Wotan.twsMessage m) => {}), new logDlg((log l) => {}), false);
 
             if (!client_.socket.IsConnected())
             {
@@ -93,6 +85,43 @@ namespace wotanUnitTest.tws
                 Thread.Sleep(1000);
                 client_.socket.eDisconnect();
             }
+        }
+
+        [TestMethod]
+        public void connectAsync()
+        {
+            bool result = false;
+            EReaderMonitorSignal signal_ = new EReaderMonitorSignal();
+            Wotan.client client_ = null;
+            EReader reader_ = null;
+
+            client_ = new Wotan.client(
+                    signal_,
+                    new dispatchDlg((twsMessage m) =>
+                    {
+                        result = true;
+                    }),
+                    new logDlg((log l) => 
+                    {
+
+                    }), true);
+
+            reader_ = new EReader(client_.socket, signal_);
+            reader_.Start();
+            client_.connectAck();
+
+            Thread.Sleep(1000);
+            new Thread(() =>
+            {
+                while (client_.socket.IsConnected())
+                {
+                    signal_.waitForSignal();
+                    reader_.processMsgs(); 
+                }
+            }) { Name = "reading thread", IsBackground = true }.Start();
+
+            Thread.Sleep(10000);
+
         }
     }
 }

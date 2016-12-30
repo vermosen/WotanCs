@@ -7,13 +7,14 @@
     <application>C:\Jts\ibgateway\960\ibgateway.exe</application>
     <credentials>
       <accountType>paper</accountType>
+      <host>127.0.0.1</host>
+      <port>4001</port>
       <login>
         <decrypted>foo</decrypted>
       </login>
       <password>
         <decrypted>ffo</decrypted>
       </password>
-      <port>4001</port>
     </credentials>
   </interactiveBroker>
 </configuration>

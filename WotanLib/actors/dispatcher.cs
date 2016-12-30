@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 namespace Wotan.actors
 {
+
     // registration signal tells a dispatcher which 
-    public class registration : signal
+    public class registration : IMessage
     {
         public IActorRef actor { get; private set; }
         public messageType[] types { get; private set; }
@@ -17,9 +18,9 @@ namespace Wotan.actors
         }
     }
 
-    public class dispatcher : TypedActor, IHandle<message>, IHandle<registration>
+    public class dispatcher : TypedActor, IHandle<twsMessage>, IHandle<registration>
     {
-        private IActorRef log_;
+        private IActorRef logger_;
 
         // TODO : see if we may have a static array instead...
         // may have to change to IActorRef or List of IActorRef...
@@ -30,8 +31,7 @@ namespace Wotan.actors
             return Akka.Actor.Props.Create(() => new dispatcher(logger));
         }
 
-
-        public void Handle(message m)
+        public void Handle(twsMessage m)
         {
             if (map_.ContainsKey(m.type))
             {
@@ -45,12 +45,12 @@ namespace Wotan.actors
         protected override void Unhandled(object message)
         {
             //Do something with the message.
-            log_.Tell(new log("bla", logType.warning, verbosity.high));
+            logger_.Tell(new log("bla", logType.warning, verbosity.high));
         }
 
         public dispatcher(IActorRef log)
         {
-            log_ = log;
+            logger_ = log;
             map_ = new Dictionary<messageType, LinkedList<IActorRef>>();
         }
 

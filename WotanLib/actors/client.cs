@@ -2,26 +2,14 @@
 using IBApi;
 using System.Net;
 using System.Threading;
+using System;
 
 namespace Wotan.actors
 {
-    public class connect : signal
-    {
-        public IPAddress host { get; private set; }
-        public int port { get; private set; }
-
-        public connect(IPAddress host, int port)
-        {
-            this.host = host;
-            this.port = port;
-        }
-    }
-    public class disconnect : signal {}
-
-    public delegate void dispatchDlg(message m);
+    public delegate void dispatchDlg(twsMessage m);
 
     // client is strongly typed
-    public class client : TypedActor, IHandle<connect>, IHandle<disconnect>, IHandle<historicalRequest>, IHandle<registration>
+    public class client : TypedActor, IHandle<IMessage>
     {
         private readonly IActorRef dispatcher_;
         private readonly IActorRef correlationManager_;
@@ -48,34 +36,36 @@ namespace Wotan.actors
             client_ = new Wotan.client(signal_, new dispatchDlg(dispatch), new logDlg(log), false);
         }
 
-        public void Handle(connect m)
+        public void Handle(IMessage m)
         {
-            (new Thread(() => connect(m.host, m.port))).Start();
-        }
+            Type t = typeof(messageType);
 
-        public void Handle(disconnect m)
-        {
-            if (client_.socket.IsConnected())
+            if (m.GetType() == typeof(connect))
             {
-                logger_?.Tell(new log("aborting connection", logType.info, verbosity.high));
-
-                // connect
-                client_.socket.eDisconnect();
+                (new Thread(() => connect((m as connect).host, (m as connect).port))).Start();
             }
-        }
-
-        public void Handle(historicalRequest message)
-        {
-            if (client_.socket.IsConnected())
+            else if (m.GetType() == typeof(disconnect))
             {
+                if (client_.socket.IsConnected())
+                {
+                    logger_?.Tell(new log("aborting connection", logType.info, verbosity.high));
 
+                    // connect
+                    client_.socket.eDisconnect();
+                }
             }
-        }
+            else if (m.GetType() == typeof(historicalDataManager.request))
+            {
+                if (client_.socket.IsConnected())
+                {
 
-        public void Handle(registration m)
-        {
-            // pass-through
-            dispatcher_?.Tell(m);
+                }
+            }
+            else if (m.GetType() == typeof(registration))
+            {
+                // pass-through
+                dispatcher_?.Tell(m);
+            }
         }
 
         protected override void Unhandled(object message)
@@ -105,7 +95,7 @@ namespace Wotan.actors
         }
 
         // callbacks
-        private void dispatch(message m)
+        private void dispatch(twsMessage m)
         {
             dispatcher_?.Tell(m);
         }

@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Wotan
 {
-    public class historicalData : message
+    public class historicalData : twsMessage
     {
         private const string format = "yyyyMMdd";
 
