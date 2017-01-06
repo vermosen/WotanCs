@@ -95,6 +95,8 @@ namespace Wotan
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            Thread.CurrentThread.Name = "Main";
+
             try
             {
                 serviceImpl srv = new serviceImpl(args);

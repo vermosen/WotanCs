@@ -59,5 +59,9 @@ namespace Wotan
         {
             error("[" + errorCode + "] " + errorMsg);
         }
+        public override void updateNewsBulletin(int msgId, int msgType, string message, string origExchange)
+        {
+            log_?.Invoke(new actors.log(string.Format("[{0}] {1}", origExchange, message), logType.info, verbosity.high));
+        }
     }
 }

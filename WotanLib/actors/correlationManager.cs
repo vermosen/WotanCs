@@ -3,35 +3,31 @@ using Akka.Actor;
 
 namespace Wotan.actors
 {
-    public abstract class correlationManagerBase<T> : TypedActor where T : IEquatable<T>, new()
+    public class correlationManager : TypedActor, IHandle<IMessage>
     {
-        public abstract correlationId<T> next();
-    }
-
-    public class correlationManager : correlationManagerBase<int>, ISingleton<correlationManager>
-    {
-        private static int previous_ = 0;
-
-        private static correlationManager instance_;
-
-        public correlationManager instance()
+        public class request : IMessage {}
+        public class reply : IMessage
         {
-            if (instance_ == null)
+            public correlation<int> correlation { get; private set; }
+            public reply(correlation<int> id) { correlation = id; }
+        }
+
+        // members
+        private int previous_;
+
+        public correlationManager() { previous_ = 0; }
+
+        public correlation<int> next()
+        {
+            return new correlation<int>(previous_ + 1);
+        }
+
+        public void Handle(IMessage m)
+        {
+            if (m.GetType() == typeof(request))
             {
-                instance_ = new correlationManager();
+                Sender.Tell(new reply(next()), Self);
             }
-
-            return instance_;
-        }
-
-        public override correlationId<int> next()
-        {
-            return instance().nextImpl();
-        }
-
-        private correlationId<int> nextImpl()
-        {
-            return new correlationId<int>(previous_ + 1);
         }
     }
 }

@@ -2,16 +2,16 @@
 
 namespace Wotan
 {
-    public class correlationId<T> : IEquatable<correlationId<T> > where T : IEquatable<T>
+    public class correlation<T> : IEquatable<correlation<T> > where T : IEquatable<T>
     {
-        public correlationId(T id)
+        public correlation(T id)
         {
             this.id = id;
         }
 
         public T id { get; private set; }
 
-        public bool Equals(correlationId<T> other)
+        public bool Equals(correlation<T> other)
         {
             if (other == null)
                 return false;
@@ -27,7 +27,7 @@ namespace Wotan
             if (obj == null)
                 return false;
 
-            correlationId<T> corrObj = obj as correlationId<T>;
+            correlation<T> corrObj = obj as correlation<T>;
             if (corrObj == null)
                 return false;
             else
@@ -39,7 +39,7 @@ namespace Wotan
             return id.GetHashCode();
         }
 
-        public static bool operator ==(correlationId<T> id1, correlationId<T> id2)
+        public static bool operator ==(correlation<T> id1, correlation<T> id2)
         {
             if (((object)id1) == null || ((object)id2) == null)
                 return Equals(id1, id2);
@@ -47,7 +47,7 @@ namespace Wotan
             return id1.Equals(id2);
         }
 
-        public static bool operator !=(correlationId<T> id1, correlationId<T> id2)
+        public static bool operator !=(correlation<T> id1, correlation<T> id2)
         {
             if (((object)id1) == null || ((object)id2) == null)
                 return !Equals(id1, id2);

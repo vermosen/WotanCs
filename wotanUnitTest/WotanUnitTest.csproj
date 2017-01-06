@@ -72,6 +72,7 @@
     <Compile Include="actors\logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="application\serialization.cs" />
+    <Compile Include="task\task.cs" />
     <Compile Include="tws\client.cs" />
   </ItemGroup>
   <ItemGroup>

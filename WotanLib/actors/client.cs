@@ -33,13 +33,11 @@ namespace Wotan.actors
 
             // tws components
             signal_ = new EReaderMonitorSignal();
-            client_ = new Wotan.client(signal_, new dispatchDlg(dispatch), new logDlg(log), false);
+            client_ = new Wotan.client(signal_, new dispatchDlg(dispatch), new logDlg(log), aSync:false);
         }
 
         public void Handle(IMessage m)
         {
-            Type t = typeof(messageType);
-
             if (m.GetType() == typeof(connect))
             {
                 (new Thread(() => connect((m as connect).host, (m as connect).port))).Start();
@@ -54,17 +52,39 @@ namespace Wotan.actors
                     client_.socket.eDisconnect();
                 }
             }
+            else if (m.GetType() == typeof(connectionStatus))
+            {
+                if (client_.socket.IsConnected())
+                {
+                    Sender.Tell(new connectionStatus(true), Self);
+                }
+            }
             else if (m.GetType() == typeof(historicalDataManager.request))
             {
                 if (client_.socket.IsConnected())
                 {
+                    var temp = (m as historicalDataManager.request);
 
+                    if (temp.correlation != null)
+                    {
+                        client_.socket.reqHistoricalData(
+                            temp.correlation.id,
+                            temp.contract,
+                            temp.endDatetime.ToString("yyyyMMdd"),
+                            temp.duration.ToString(),
+                            temp.barSize.ToString(),
+                            temp.type.ToString(),
+                            temp.useRTH,
+                            temp.formatDate,
+                            null);
+                    }
+                    
                 }
             }
             else if (m.GetType() == typeof(registration))
             {
                 // pass-through
-                dispatcher_?.Tell(m);
+                dispatcher_?.Forward(m);
             }
         }
 

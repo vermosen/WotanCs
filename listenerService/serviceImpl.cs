@@ -4,6 +4,7 @@ using Akka.Actor;
 using System.Net;
 using IBApi;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Wotan
 {
@@ -38,8 +39,19 @@ namespace Wotan
 
                     client_.Tell(new connect(config_.ibEnvironment.credentials.host, config_.ibEnvironment.credentials.port));
 
+                    // wait for the connection
+                    while (Task.Run(async () =>
+                    {
+                        var t = client_.Ask<connectionStatus>(new connectionStatus(), TimeSpan.FromSeconds(10));
+                        await t;
+                        return t.Result.isConnected;
+                    }).Result != true)
+                    {
+                        Thread.Sleep(100);
+                    }
+
                     // add historical data manager
-                    hist_ = actorSystem_.ActorOf(actors.historicalDataManager.Props(client_, /*corr_,*/ logger_), "historicalManagerActor");
+                    hist_ = actorSystem_.ActorOf(actors.historicalDataManager.Props(client_, corr_, logger_), "historicalManagerActor");
 
                     hist_.Tell(new actors.historicalDataManager.request(new Contract()
                     {
@@ -48,11 +60,9 @@ namespace Wotan
                         Exchange = "SMART",
                         Currency = "USD"
                     }, new DateTime(2016, 11, 27, 10, 28, 43),
-                        new TimeSpan(10, 0, 0, 0, 0),
-                        new TimeSpan(1, 0, 0, 0, 0),
+                        TimeSpan.FromDays(10),
+                        TimeSpan.FromDays(1),
                         actors.historicalDataManager.barType.MIDPOINT, 0, 1));
-
-                    
                 }
                 catch (Exception ex)
                 {
@@ -98,7 +108,7 @@ namespace Wotan
             }
             else
             {
-                // TODO: autologin
+                // TODO: launch the gateway process
                 //int nAttempt = 0; bool lanched = false;
 
                 //ProcessStartInfo psi = new ProcessStartInfo();

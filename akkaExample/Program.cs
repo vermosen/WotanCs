@@ -34,7 +34,7 @@ namespace akkaExample
     public class sink : UntypedActor
     {
         private readonly worker[] workers_;
-        private List<correlationId<int> > ids_ = new List<correlationId<int> >();
+        private List<correlation<int> > ids_ = new List<correlation<int> >();
 
         public sink(worker[] workers)
         {
@@ -51,7 +51,7 @@ namespace akkaExample
 
         protected override void OnReceive(object message)
         {
-            ids_.Add((correlationId<int>)message);
+            ids_.Add((correlation<int>)message);
         }
     }
 
@@ -77,8 +77,6 @@ namespace akkaExample
             }
 
             IActorRef sink_ = actorSystem_.ActorOf(Props.Create<sink>(workers_), "sink");
-
-            //sink_.Tell();
         }
     }
 }

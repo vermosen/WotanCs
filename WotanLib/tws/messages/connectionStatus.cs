@@ -2,11 +2,11 @@
 {
     public class connectionStatus : twsMessage
     {
-        public connectionStatus(bool isConnected) : base(messageType.connectionStatus)
+        public connectionStatus(bool isConnected = false) : base(messageType.connectionStatus)
         {
             this.isConnected = isConnected;
         }
 
-        public bool isConnected { get; private set; }
+        public bool isConnected { get; set; }
     }
 }

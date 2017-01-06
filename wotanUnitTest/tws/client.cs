@@ -64,7 +64,7 @@ namespace wotanUnitTest.tws
         public void connectSync()
         {
             EReaderMonitorSignal signal_ = new EReaderMonitorSignal();
-            Wotan.client client_ = new Wotan.client(signal_, new dispatchDlg((Wotan.twsMessage m) => {}), new logDlg((log l) => {}), false);
+            Wotan.client client_ = new Wotan.client(signal_, new dispatchDlg((twsMessage m) => {}), new logDlg((log l) => {}), false);
 
             if (!client_.socket.IsConnected())
             {

@@ -37,7 +37,7 @@ namespace Wotan.actors
             {
                 foreach (var i in map_[m.type])
                 {
-                    i.Tell(m);
+                    i.Forward(m);
                 }
             }
         }

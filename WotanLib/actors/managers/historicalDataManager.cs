@@ -12,23 +12,24 @@ namespace Wotan.actors
     {
         public class request : IMessage
         {
+            public correlation<int> correlation { get; set; }
             public Contract contract { get; private set; }
-            public DateTime datetime { get; private set; }
-            public TimeSpan ts1 { get; private set; }
-            public TimeSpan ts2 { get; private set; }
+            public DateTime endDatetime { get; private set; }
+            public TimeSpan duration { get; private set; }
+            public TimeSpan barSize { get; private set; }
             public barType type { get; private set; }
-            public int i1 { get; private set; }
-            public int i2 { get; private set; }
+            public int useRTH { get; private set; } // todo: create class/enum
+            public int formatDate { get; private set; }
 
-            public request(Contract contract, DateTime datetime, TimeSpan ts1, TimeSpan ts2, barType type, int i1, int i2)
+            public request(Contract contract, DateTime endDatetime, TimeSpan duration, TimeSpan barSize, barType type, int useRTH, int formatDate)
             {
                 this.contract = contract;
-                this.datetime = datetime;
-                this.ts1 = ts1;
-                this.ts2 = ts2;
+                this.endDatetime = endDatetime;
+                this.duration = duration;
+                this.barSize = barSize;
                 this.type = type;
-                this.i1 = i1;
-                this.i2 = i2;
+                this.useRTH = useRTH;
+                this.formatDate = formatDate;
             }
         }
 
@@ -37,18 +38,37 @@ namespace Wotan.actors
             MIDPOINT = 1
         }
         
-        public historicalDataManager(IActorRef client, IActorRef corr, IActorRef logger) : base(client, corr, logger)
+        public historicalDataManager(IActorRef client, IActorRef corr, IActorRef logger) : base(client, corr, logger) {}
+
+        public void Handle(IMessage m)
         {
+            if (m.GetType() == typeof(request))
+            {
+                var temp = (request)m;
+
+                // we first insure the client is connected
+                temp.correlation = Task.Run(async () =>
+                {
+                    var t = client_.Ask<correlationManager.reply>(new correlationManager.request(), TimeSpan.FromSeconds(1));
+                    await t;
+                    return t.Result.correlation;
+                }).Result;
+
+                if (Task.Run(async () =>
+                 {
+                     var t = corr_.Ask<connectionStatus>(new connectionStatus(), TimeSpan.FromSeconds(1));
+                     await t;
+                     return t.Result.isConnected;
+                 }).Result == true)
+                {
+                    client_.Tell(m);
+                }
+            }
         }
 
-        public void Handle(IMessage message)
+        public static Props Props(IActorRef client, IActorRef corr, IActorRef logger)
         {
-            throw new NotImplementedException();
-        }
-
-        public static Props Props(IActorRef client_, IActorRef logger_)
-        {
-            throw new NotImplementedException();
+            return Akka.Actor.Props.Create(() => new historicalDataManager(client, corr, logger));
         }
     }
 }

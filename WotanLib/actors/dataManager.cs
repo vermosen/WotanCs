@@ -1,4 +1,6 @@
 ﻿using Akka.Actor;
+using System;
+using System.Threading.Tasks;
 
 namespace Wotan.actors
 {
@@ -13,6 +15,13 @@ namespace Wotan.actors
             client_ = client;
             logger_ = logger;
             corr_   = corr  ;
+        }
+
+        public async Task<correlation<int>> getCorrelation()
+        {
+            var t1 = corr_.Ask<correlationManager.reply>(new correlationManager.request(), TimeSpan.FromSeconds(1));
+            await t1;
+            return t1.Result.correlation;
         }
     }
 }
