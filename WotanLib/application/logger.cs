@@ -16,6 +16,7 @@
         undefined   = 0
     }
 
+    public delegate void logDelegate(string m, logType l, verbosity v, int id = 0);
     public abstract class logger
     {
         private verbosity threshold_;

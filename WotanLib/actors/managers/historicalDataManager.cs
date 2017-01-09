@@ -1,5 +1,4 @@
-﻿using Akka.Actor;
-using IBApi;
+﻿using IBApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;

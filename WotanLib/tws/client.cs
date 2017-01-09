@@ -3,14 +3,16 @@ using System;
 
 namespace Wotan
 {
+    public delegate void dispatchDelegate(twsMessage m);
+
     public class client : eWrapperImpl
     {
-        private actors.logDlg log_;
-        private actors.dispatchDlg dispatch_;
+        private logDelegate log_;
+        private dispatchDelegate dispatch_;
         private EClientSocket socket_;
         protected int serverVersion_;
 
-        public client(EReaderMonitorSignal reader, actors.dispatchDlg dispatch, actors.logDlg log, bool aSync = true)
+        public client(EReaderMonitorSignal reader, dispatchDelegate dispatch, logDelegate log, bool aSync = true)
         {
             log_ = log;
             dispatch_ = dispatch;
@@ -52,7 +54,7 @@ namespace Wotan
 
         public override void error(string str)
         {
-            log_?.Invoke(new actors.log(str, logType.error, verbosity.high));
+            log_?.Invoke(str, logType.error, verbosity.high);
         }
 
         public override void error(int id, int errorCode, string errorMsg)
@@ -61,7 +63,7 @@ namespace Wotan
         }
         public override void updateNewsBulletin(int msgId, int msgType, string message, string origExchange)
         {
-            log_?.Invoke(new actors.log(string.Format("[{0}] {1}", origExchange, message), logType.info, verbosity.high));
+            log_?.Invoke(string.Format("[{0}] {1}", origExchange, message), logType.info, verbosity.high);
         }
     }
 }

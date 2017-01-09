@@ -1,14 +1,11 @@
 C:\Git\Wotan\WotanLib\bin\Debug\WotanLib.dll.config
 C:\Git\Wotan\WotanLib\bin\Debug\WotanLib.dll
 C:\Git\Wotan\WotanLib\bin\Debug\WotanLib.pdb
-C:\Git\Wotan\WotanLib\bin\Debug\Akka.dll
 C:\Git\Wotan\WotanLib\bin\Debug\CSharpAPI.dll
 C:\Git\Wotan\WotanLib\bin\Debug\Newtonsoft.Json.dll
 C:\Git\Wotan\WotanLib\bin\Debug\System.Collections.Immutable.dll
-C:\Git\Wotan\WotanLib\bin\Debug\Akka.xml
 C:\Git\Wotan\WotanLib\bin\Debug\CSharpAPI.pdb
 C:\Git\Wotan\WotanLib\bin\Debug\Newtonsoft.Json.xml
 C:\Git\Wotan\WotanLib\bin\Debug\System.Collections.Immutable.xml
 C:\Git\Wotan\WotanLib\obj\Debug\WotanLib.dll
 C:\Git\Wotan\WotanLib\obj\Debug\WotanLib.pdb
-C:\Git\Wotan\WotanLib\obj\Debug\WotanLib.csprojResolveAssemblyReference.cache

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Akka.Actor;
-using Wotan.actors;
 using Wotan;
 
 namespace akkaExample

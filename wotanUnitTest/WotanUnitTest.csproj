@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Akka, Version=1.1.2.29, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Akka.1.1.2\lib\net45\Akka.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="CSharpAPI, Version=9.72.17.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -67,9 +63,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="actors\correlationManager.cs" />
-    <Compile Include="actors\dispatcher.cs" />
-    <Compile Include="actors\logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="application\serialization.cs" />
     <Compile Include="task\task.cs" />

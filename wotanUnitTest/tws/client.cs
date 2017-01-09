@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using Wotan.actors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using IBApi;
 using System.Threading;

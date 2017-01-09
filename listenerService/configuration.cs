@@ -29,7 +29,7 @@ namespace Wotan
 
     // TODO: use code contracts
     [DataContract(Name = "configuration")]
-    public class configurationContract
+    public class configuration : service.IConfiguration
     {
         [DataMember(IsRequired = true, Name = "logger", Order = 0)]
         public loggerContract logger { get; set; }

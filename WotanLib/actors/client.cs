@@ -1,5 +1,4 @@
-﻿using Akka.Actor;
-using IBApi;
+﻿using IBApi;
 using System.Net;
 using System.Threading;
 using System;

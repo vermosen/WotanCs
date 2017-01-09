@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Akka, Version=1.1.2.29, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Akka.1.1.2\lib\net45\Akka.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="CSharpAPI">
       <HintPath>..\..\..\TWS API\source\CSharpClient\client\bin\Release\CSharpAPI.dll</HintPath>
     </Reference>
@@ -57,7 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="actors\managers\historicalDataManager.cs" />
+    <None Include="actors\client.cs" />
+    <None Include="actors\dataManager.cs" />
+    <None Include="actors\dispatcher.cs" />
+    <None Include="actors\managers\historicalDataManager.cs" />
+    <None Include="actors\managers\historicalManager.cs" />
     <Compile Include="application\configuration.cs" />
     <Compile Include="application\loggers\consoleLogger.cs" />
     <Compile Include="application\loggers\nullLogger.cs" />
@@ -71,11 +71,7 @@
     <Compile Include="pattern\visitor.cs" />
     <Compile Include="time\calendar.cs" />
     <Compile Include="time\period.cs" />
-    <Compile Include="actors\client.cs" />
-    <Compile Include="actors\correlationManager.cs" />
-    <Compile Include="actors\dispatcher.cs" />
-    <Compile Include="actors\logger.cs" />
-    <Compile Include="actors\dataManager.cs" />
+    <Compile Include="tws\correlationManager.cs" />
     <Compile Include="tws\client.cs" />
     <Compile Include="tws\gatewayManager\gatewayManager.cs" />
     <Compile Include="tws\message.cs" />

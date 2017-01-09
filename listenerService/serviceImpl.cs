@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Akka.Actor;
 using System.Net;
 using IBApi;
 using System.Threading;
@@ -11,19 +10,18 @@ namespace Wotan
     // service implementation
     public class serviceImpl : service
     {
-        private configurationContract config_;
+        private correlationManager corr_;
+        private client client_;
 
-        private IActorRef hist_;
-        private IActorRef corr_;
-        private IActorRef client_;
+        private EReaderMonitorSignal signal_;
 
         // ctors
         [Obsolete]
         private serviceImpl() : base(null) { }                                  // for designer only
         public serviceImpl(string[] args) : base(args)
         {
-            // correlation manager
-            corr_ = actorSystem_.ActorOf(Props.Create<actors.correlationManager>(), "correlationActor");
+            client_ = null;
+            logger_ = null;
         }
 
         // interfaces
@@ -34,35 +32,45 @@ namespace Wotan
                 // connection attempt
                 try
                 {
+                    var conf = (configuration)config_;
+
+                    logger_ = conf.logger.create();
+                    signal_ = new EReaderMonitorSignal();
+                    corr_ = new correlationManager();
+
+                    //dispatcher_ = new dis
+                    // tws components
+                    client_ = new client(signal_, new dispatchDlg(dispatch), new logDlg(logger_), aSync: false);
+
                     // create the client
-                    client_ = actorSystem_.ActorOf(actors.client.Props(corr_, logger_), "clientActor");
+                    //client_ = actorSystem_.ActorOf(actors.client.Props(corr_, logger_), "clientActor");
 
-                    client_.Tell(new connect(config_.ibEnvironment.credentials.host, config_.ibEnvironment.credentials.port));
+                    //client_.Tell(new connect(config_.ibEnvironment.credentials.host, config_.ibEnvironment.credentials.port));
 
-                    // wait for the connection
-                    while (Task.Run(async () =>
-                    {
-                        var t = client_.Ask<connectionStatus>(new connectionStatus(), TimeSpan.FromSeconds(10));
-                        await t;
-                        return t.Result.isConnected;
-                    }).Result != true)
-                    {
-                        Thread.Sleep(100);
-                    }
+                    //// wait for the connection
+                    //while (Task.Run(async () =>
+                    //{
+                    //    var t = client_.Ask<connectionStatus>(new connectionStatus(), TimeSpan.FromSeconds(10));
+                    //    await t;
+                    //    return t.Result.isConnected;
+                    //}).Result != true)
+                    //{
+                    //    Thread.Sleep(100);
+                    //}
 
-                    // add historical data manager
-                    hist_ = actorSystem_.ActorOf(actors.historicalDataManager.Props(client_, corr_, logger_), "historicalManagerActor");
+                    //// add historical data manager
+                    //hist_ = actorSystem_.ActorOf(actors.historicalDataManager.Props(client_, corr_, logger_), "historicalManagerActor");
 
-                    hist_.Tell(new actors.historicalDataManager.request(new Contract()
-                    {
-                        Symbol = "SDS",
-                        SecType = "STK",
-                        Exchange = "SMART",
-                        Currency = "USD"
-                    }, new DateTime(2016, 11, 27, 10, 28, 43),
-                        TimeSpan.FromDays(10),
-                        TimeSpan.FromDays(1),
-                        actors.historicalDataManager.barType.MIDPOINT, 0, 1));
+                    //hist_.Tell(new actors.historicalDataManager.request(new Contract()
+                    //{
+                    //    Symbol = "SDS",
+                    //    SecType = "STK",
+                    //    Exchange = "SMART",
+                    //    Currency = "USD"
+                    //}, new DateTime(2016, 11, 27, 10, 28, 43),
+                    //    TimeSpan.FromDays(10),
+                    //    TimeSpan.FromDays(1),
+                    //    actors.historicalDataManager.barType.MIDPOINT, 0, 1));
                 }
                 catch (Exception ex)
                 {
