@@ -81,7 +81,7 @@ namespace wotanUnitTest.application
         }
 
         [TestMethod]
-        public void deserializePassword()
+        public void serializePassword()
         {
             Wotan.encrypter e = (new encrypterFactory()).create(encrypterType.AES);
 
@@ -96,6 +96,13 @@ namespace wotanUnitTest.application
                     using (StreamReader reader = new StreamReader(ms))
                     {
                         string res = reader.ReadToEnd();
+
+                        Assert.AreEqual(res, 
+                            "<encryptedString xmlns=\"http://schemas.datacontract.org/2004/07/Wotan\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">" +
+                                "<encrypt>true</encrypt>" + 
+                                "<string>cybHxAg/UGmwBnuStAOaNA==</string>" + 
+                                "<method>AES</method>" + 
+                            "</encryptedString>");
                     }
                 }
             }

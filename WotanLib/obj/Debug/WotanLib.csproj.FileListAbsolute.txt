@@ -9,3 +9,4 @@ C:\Git\Wotan\WotanLib\bin\Debug\Newtonsoft.Json.xml
 C:\Git\Wotan\WotanLib\bin\Debug\System.Collections.Immutable.xml
 C:\Git\Wotan\WotanLib\obj\Debug\WotanLib.dll
 C:\Git\Wotan\WotanLib\obj\Debug\WotanLib.pdb
+C:\Git\Wotan\WotanLib\obj\Debug\WotanLib.csprojResolveAssemblyReference.cache

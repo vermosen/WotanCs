@@ -12,6 +12,7 @@ namespace Wotan
     }
 
     // TODO: replace with securedString
+    [DataContract]
     public class encryptedString
     {
         private encrypter encrypter_;
@@ -24,7 +25,7 @@ namespace Wotan
         private string encryptedStr { get; set; }
 
         [DataMember(IsRequired = false, Name = "method", Order = 2)]
-        private encrypterType encrypter { get; set; }
+        private encrypterType method { get; set; }
 
         public string decrypted
         {
@@ -33,7 +34,7 @@ namespace Wotan
                 if (encrypt == true)
                 {
                     if (encrypter_ == null)
-                        encrypter_ = (new encrypterFactory()).create(encrypter);
+                        encrypter_ = (new encrypterFactory()).create(method);
 
                     return encrypter_.decrypt(encryptedStr);
                 }
@@ -44,7 +45,7 @@ namespace Wotan
                 decrypted_ = value;
 
                 if (encrypter_ == null)
-                    encrypter_ = (new encrypterFactory()).create(encrypter);
+                    encrypter_ = (new encrypterFactory()).create(method);
 
                 if (encrypt)
                     encryptedStr = encrypter_.encrypt(decrypted_);
@@ -57,10 +58,10 @@ namespace Wotan
         [Obsolete("for serialization only", true)]
         public encryptedString() {}
 
-        public encryptedString(string decrypted, bool encrypt = true, encrypterType encrypter = encrypterType.AES)
+        public encryptedString(string decrypted, bool encrypt = true, encrypterType method = encrypterType.AES)
         {
             this.encrypt = encrypt;
-            this.encrypter = encrypter;
+            this.method = method;
             this.decrypted = decrypted;
         }
     }
