@@ -40,7 +40,7 @@ namespace Wotan
 
                     //dispatcher_ = new dis
                     // tws components
-                    client_ = new client(signal_, new dispatchDlg(dispatch), new logDlg(logger_), aSync: false);
+                    //client_ = new client(signal_, new dispatchDelegate(dispatch), new logDelegate(logger_.add), aSync: false);
 
                     // create the client
                     //client_ = actorSystem_.ActorOf(actors.client.Props(corr_, logger_), "clientActor");
@@ -74,32 +74,30 @@ namespace Wotan
                 }
                 catch (Exception ex)
                 {
-                    logger_?.Tell(new actors.log("an error has occurred: " + ex.ToString(),
-                        logType.error, verbosity.high));
+                    logger_?.add("an error has occurred: " + ex.ToString(),
+                        logType.error, verbosity.high);
                 }
             }
             else
             {
-                logger_?.Tell(new actors.log("no running ibgateway process found, shutting down the service...",
-                    logType.error, verbosity.high));
+                logger_?.add("no running ibgateway process found, shutting down the service...",
+                    logType.error, verbosity.high);
 
                 Stop();
             }
         }
         public override void onStopImpl()
         {
-            client_?.Tell(new disconnect());
-
+            client_?.socket.eDisconnect();
             Thread.Sleep(5000);
         }
         public override void loadPreferencesImpl(string xmlPath)
         {
-            config_ = (new contractSerializer<configurationContract>())
+            config_ = (new contractSerializer<configuration>())
                 .deserializeFromFile(xmlPath);
 
             // logger
-            logger_ = actorSystem_.ActorOf(Props.Create<actors.logger>(
-                config_.logger.create()), "logActor");
+            logger_ = (config_ as configuration).logger.create();
         }
 
         // methods
@@ -109,8 +107,8 @@ namespace Wotan
 
             if (pname.Length != 0)
             {
-                logger_?.Tell(new actors.log("ibgateway process is up and running",
-                    logType.info, verbosity.high));
+                logger_?.add("ibgateway process is up and running",
+                    logType.info, verbosity.high);
 
                 return true;
             }

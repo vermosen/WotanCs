@@ -24,7 +24,7 @@ namespace Wotan
     {
         Dictionary<K, iFactoryElement> map_ = new Dictionary<K, iFactoryElement>();
 
-        public void Add<V>(K key) where V : T, new()
+        public void add<V>(K key) where V : T, new()
         {
             map_.Add(key, new factoryElement<V>());
         }

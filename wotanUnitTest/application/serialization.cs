@@ -134,7 +134,7 @@ namespace wotanUnitTest
         [TestMethod]
         public void serializeConfigurationContract()
         {
-            configurationContract c = new configurationContract()
+            configuration c = new configuration()
             {
                 logger = new winLoggerContract
                 {
@@ -148,14 +148,14 @@ namespace wotanUnitTest
                     credentials = new credentials
                     {
                         accountType = accountType.live,
-                        login = new encryptedString { decrypted = "foo" },
-                        password = new encryptedString { decrypted = "ffo" },
+                        login = new encryptedString("myLogin"),
+                        password = new encryptedString("myPassword"),
                         port = 4001
                     }
                 }
             };
 
-            using (var s = new contractSerializer<configurationContract>())
+            using (var s = new contractSerializer<configuration>())
             {
                 using (MemoryStream ms = (MemoryStream)s.fromObject(c))
                 {

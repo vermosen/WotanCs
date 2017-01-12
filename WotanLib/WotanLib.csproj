@@ -62,7 +62,8 @@
     <Compile Include="application\loggers\consoleLogger.cs" />
     <Compile Include="application\loggers\nullLogger.cs" />
     <Compile Include="application\loggers\winLogger.cs" />
-    <Compile Include="application\security\securedString.cs" />
+    <Compile Include="application\security\encrypter.cs" />
+    <Compile Include="application\security\encrypters\AESEncrypter.cs" />
     <Compile Include="application\serializers\contractSerializer.cs" />
     <Compile Include="application\logger.cs" />
     <Compile Include="application\serializer.cs" />

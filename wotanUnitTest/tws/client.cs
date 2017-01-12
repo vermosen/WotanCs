@@ -63,7 +63,8 @@ namespace wotanUnitTest.tws
         public void connectSync()
         {
             EReaderMonitorSignal signal_ = new EReaderMonitorSignal();
-            Wotan.client client_ = new Wotan.client(signal_, new dispatchDlg((twsMessage m) => {}), new logDlg((log l) => {}), false);
+            Wotan.client client_ = new Wotan.client(signal_, new dispatchDelegate((twsMessage m) => {}), 
+                new logDelegate((string m, logType l, verbosity v, int id) => { }), false);
 
             if (!client_.socket.IsConnected())
             {
@@ -96,14 +97,11 @@ namespace wotanUnitTest.tws
 
             client_ = new Wotan.client(
                     signal_,
-                    new dispatchDlg((twsMessage m) =>
+                    new dispatchDelegate((twsMessage m) =>
                     {
                         result = true;
                     }),
-                    new logDlg((log l) => 
-                    {
-
-                    }), true);
+                    new logDelegate((string m, logType l, verbosity v, int id) => { }), true);
 
             reader_ = new EReader(client_.socket, signal_);
             reader_.Start();

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Runtime.Serialization;
 
 namespace Wotan
@@ -13,17 +14,54 @@ namespace Wotan
     // TODO: replace with securedString
     public class encryptedString
     {
-        [DataMember(IsRequired = true, Name = "encrypted", Order = 0)]
-        private bool encrypted { get; set; }
+        private encrypter encrypter_;
+        private string decrypted_;
+
+        [DataMember(IsRequired = true, Name = "encrypt", Order = 0)]
+        private bool encrypt { get; set; }
 
         [DataMember(IsRequired = true, Name = "string", Order = 1)]
         private string encryptedStr { get; set; }
 
+        [DataMember(IsRequired = false, Name = "method", Order = 2)]
+        private encrypterType encrypter { get; set; }
+
         public string decrypted
         {
-            // TODO
-            get { return encryptedStr; }
-            set { encrypted = false; encryptedStr = value; }
+            get
+            {
+                if (encrypt == true)
+                {
+                    if (encrypter_ == null)
+                        encrypter_ = (new encrypterFactory()).create(encrypter);
+
+                    return encrypter_.decrypt(encryptedStr);
+                }
+                else return encryptedStr;
+            }
+            private set
+            {
+                decrypted_ = value;
+
+                if (encrypter_ == null)
+                    encrypter_ = (new encrypterFactory()).create(encrypter);
+
+                if (encrypt)
+                    encryptedStr = encrypter_.encrypt(decrypted_);
+                else
+                    encryptedStr = decrypted_;
+            }
+        }
+
+        // for serialization
+        [Obsolete("for serialization only", true)]
+        public encryptedString() {}
+
+        public encryptedString(string decrypted, bool encrypt = true, encrypterType encrypter = encrypterType.AES)
+        {
+            this.encrypt = encrypt;
+            this.encrypter = encrypter;
+            this.decrypted = decrypted;
         }
     }
 
