@@ -7,8 +7,6 @@ namespace Wotan
     {
         public T deserializeFromFile(string relativePath)
         {
-            string path = Path.GetFullPath(relativePath);
-
             using (FileStream file = new FileStream(Path.GetFullPath(relativePath), 
                 FileMode.Open, FileAccess.Read, FileShare.Read))
             {
