@@ -58,15 +58,17 @@
     <None Include="actors\dispatcher.cs" />
     <None Include="actors\managers\historicalDataManager.cs" />
     <None Include="actors\managers\historicalManager.cs" />
-    <Compile Include="application\configuration.cs" />
+    <Compile Include="application\serialization\configuration.cs" />
+    <Compile Include="application\serialization\connection.cs" />
     <Compile Include="application\loggers\consoleLogger.cs" />
     <Compile Include="application\loggers\nullLogger.cs" />
     <Compile Include="application\loggers\winLogger.cs" />
     <Compile Include="application\security\encrypter.cs" />
     <Compile Include="application\security\encrypters\AESEncrypter.cs" />
-    <Compile Include="application\serializers\contractSerializer.cs" />
+    <Compile Include="application\serialization\encryptedString.cs" />
+    <Compile Include="application\serialization\serializers\contractSerializer.cs" />
     <Compile Include="application\logger.cs" />
-    <Compile Include="application\serializer.cs" />
+    <Compile Include="application\serialization\serializer.cs" />
     <Compile Include="pattern\factory.cs" />
     <Compile Include="pattern\singleton.cs" />
     <Compile Include="pattern\visitor.cs" />
@@ -87,7 +89,7 @@
     <Compile Include="application\service.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="application\serializers\xmlSerializer.cs" />
+    <Compile Include="application\serialization\serializers\xmlSerializer.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
