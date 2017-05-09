@@ -13,3 +13,6 @@ C:\Git\Wotan\listenerConsole\bin\Debug\System.Collections.Immutable.xml
 C:\Git\Wotan\listenerConsole\obj\Debug\listenerConsole.csprojResolveAssemblyReference.cache
 C:\Git\Wotan\listenerConsole\obj\Debug\listenerConsole.exe
 C:\Git\Wotan\listenerConsole\obj\Debug\listenerConsole.pdb
+C:\Git\WotanCs\listenerConsole\bin\Debug\listenerConsole.exe.config
+C:\Git\WotanCs\listenerConsole\obj\Debug\listenerConsole.exe
+C:\Git\WotanCs\listenerConsole\obj\Debug\listenerConsole.pdb
